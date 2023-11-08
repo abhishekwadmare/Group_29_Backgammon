@@ -7,6 +7,7 @@ public class Board
     private Bar whiteBar;
     public static final int TOTAL_TRIANGLES = 24;
     public static final int TOTAL_CHECKERS = 30;
+    public static boolean quit = false;
 
     public Board() {
         redBar = new Bar("RED");

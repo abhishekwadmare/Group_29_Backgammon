@@ -12,7 +12,24 @@ public class Triangle implements Lane{
         triangle = new Stack<>();
         for(int i = 0; i < checkerCount; i++)
             insertChecker(new Checker(color));
+    }
 
+    private String numberRepresentation(int n){
+        if(n < 10) {
+            return " " + n;
+        } else
+            return Integer.toString(n);
+    }
+
+    public String toString(){
+        if(triangle.isEmpty()){
+            return "[   ]";
+        } else if(this.getColor().equals("RED")){
+//            return "[" + "\033[0;31m" + numberRepresentation(triangle.size()) + "\033[0m" + "]";
+            return "[R" + numberRepresentation(triangle.size()) + "]";
+        } else {
+            return "[W" + numberRepresentation(triangle.size()) + "]";
+        }
     }
 
     @Override

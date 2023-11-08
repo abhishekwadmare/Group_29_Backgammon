@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Triangles {
 
-    private ArrayList<Triangle> triangles = new ArrayList<>();
+    private ArrayList<Triangle> triangles = new ArrayList<>(Board.TOTAL_TRIANGLES);
 
     public Triangles(){
         for (int i = 1; i <= Board.TOTAL_TRIANGLES; i++) {
@@ -29,5 +29,7 @@ public class Triangles {
         }
     }
 
-
+    public Triangle getTriangle(int i){
+        return triangles.get(i);
+    }
 }
