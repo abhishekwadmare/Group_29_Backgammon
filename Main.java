@@ -1,0 +1,10 @@
+public class Main {
+    public static void main(String [] args){
+        Board board = new Board();
+        Moves.whoPlaysFirst(board);
+        while(!board.isGameOver()){
+            View.displayBoard(board);
+            Moves.move(board);
+        }
+    }
+}
