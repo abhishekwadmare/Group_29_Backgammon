@@ -15,20 +15,20 @@ public class Triangle implements Lane{
     }
 
     private String numberRepresentation(int n){
-        if(n < 10) {
+        if(n<10){
             return " " + n;
-        } else
+        } else {
             return Integer.toString(n);
+        }
     }
 
     public String toString(){
         if(triangle.isEmpty()){
-            return "[   ]";
+            return "  [  ] ";
         } else if(this.getColor().equals("RED")){
-//            return "[" + "\033[0;31m" + numberRepresentation(triangle.size()) + "\033[0m" + "]";
-            return "[R" + numberRepresentation(triangle.size()) + "]";
+            return "  [\u001B[31m" + numberRepresentation(triangle.size()) + "\u001B[0m] ";
         } else {
-            return "[W" + numberRepresentation(triangle.size()) + "]";
+            return "  [\u001B[0m" + numberRepresentation(triangle.size()) + "] ";
         }
     }
 
