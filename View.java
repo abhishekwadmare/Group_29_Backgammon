@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class View {
+    public static boolean isWrongInput = false;
     public static void displayBoard(Board board){
         displayHeader();
         displayPlayer(board);
@@ -55,6 +56,9 @@ public class View {
 
     public static String getInput(){
         Scanner sc = new Scanner(System.in);
+        if(isWrongInput){
+            System.out.print("\nInvalid command please enter a valid command");
+        }
         System.out.print("\ninput your move: ");
         return sc.nextLine();
     }

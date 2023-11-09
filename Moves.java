@@ -29,9 +29,10 @@ public class Moves {
                 Dices.roll(2);
                 break;
             default:
-                System.out.println("Invalid command please enter a valid command");
+                View.isWrongInput = true;
                 return;
         }
+        View.isWrongInput = false;
         switchPlayer();
     }
 
