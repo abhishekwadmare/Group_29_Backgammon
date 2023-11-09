@@ -1,12 +1,19 @@
 import java.util.Scanner;
 
 public class View {
-    public static String displayBoard(Board board){
+    public static boolean isWrongInput = false;
+    public static void displayBoard(Board board){
+        displayHeader();
         displayPlayer(board);
         displayTopTriangles(board);
         displayBottomTriangles(board);
         displayDice();
-        return getInput();
+    }
+
+    public static void displayHeader(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("                    ------   Backgammon   ------                  ");
+        System.out.println("------------------------------------------------------------------");
     }
 
     public static void displayPlayer(Board board){
@@ -21,18 +28,17 @@ public class View {
     }
 
     public static void displayDice(){
-        if(Dice.diceOneRolled && Dice.diceTwoRolled){
-            System.out.println("[  " + Dice.diceOne + "  ]  " + "    [  " + Dice.diceTwo + "  ]");
-            Dice.diceOneRolled = false;
-            Dice.diceTwoRolled = false;
+        System.out.println(" Dices One \t  Dices Two");
+        if(Dices.diceOneRolled && Dices.diceTwoRolled){
+            System.out.println("[  " + Dices.diceOne + "  ]  " + "    [  " + Dices.diceTwo + "  ]");
+            Dices.diceOneRolled = false;
+            Dices.diceTwoRolled = false;
         } else {
             System.out.println(" [     ]  " + "    [     ]");
         }
-        System.out.println("Dice One \t Dice Two");
     }
     public static void displayTopTriangles(Board board){
-        System.out.print("\t");
-        for(int i = 13; i < 25; i++) System.out.print("  " + i + "   ");
+        System.out.print("\t   13       14       15       16       17       18       19       20       21       22       23       24");
         System.out.print("\n\t");
         for(int i = 12; i < 24; i++)
             System.out.printf(board.getTriangles().getTriangle(i) + "  ");
@@ -43,19 +49,17 @@ public class View {
         System.out.print("\n\n\t");
         for(int i = 11; i >= 0; i--)
             System.out.print(board.getTriangles().getTriangle(i) + "  ");
-        System.out.print("\n\t");
-        for(int i = 12; i > 0; i--) {
-            if(i < 10)
-                System.out.print("   " + i + "   ");
-            else
-                System.out.print("  " + i + "   ");
-        }
-        System.out.print("\n\n");
+        System.out.print("\n\t ");
+        System.out.println("  12       11       10       9        8         7        6        5        4        3       2        1   ");
+        System.out.print("\n");
     }
 
     public static String getInput(){
         Scanner sc = new Scanner(System.in);
-        System.out.print("input your move: ");
+        if(isWrongInput){
+            System.out.print("\nInvalid command please enter a valid command");
+        }
+        System.out.print("\ninput your move: ");
         return sc.nextLine();
     }
 }

@@ -7,12 +7,13 @@ public class Board
     private Triangles triangles;
     private Bar redBar, whiteBar;
     public Player playerOne, playerTwo;
+    public static boolean quit = false;
     public static final int TOTAL_TRIANGLES = 24;
     public static final int TOTAL_CHECKERS = 30;
-    public static boolean quit = false;
     public static int activePlayer = 1;
 
     public Board() {
+        View.displayHeader();
         playerOne = setupPlayer();
         playerTwo = setupPlayer();
         redBar = new Bar("RED");
@@ -21,6 +22,7 @@ public class Board
     }
 
     public Player setupPlayer(){
+        System.out.println();
         Scanner scanner = new Scanner(System.in);
         String name;
         String color;
@@ -32,11 +34,12 @@ public class Board
         else
             color = "RED";
         Moves.switchPlayer();
+        System.out.println();
         return new Player(name, color);
     }
 
     public Boolean isGameOver(){
-        return false;
+        return Board.quit;
     }
     public Bar getRedBar() {
         return redBar;

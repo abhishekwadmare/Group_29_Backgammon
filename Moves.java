@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Moves {
 
     public boolean isNumeric(String str) {
@@ -18,30 +16,26 @@ public class Moves {
             Board.activePlayer = 1;
     }
 
-    public static void move(Board board, String command){
-        switch (command.strip().length()){
-            case 1:
-                if(command.strip().equals("q") || command.strip().equals("Q")){
-                    Board.quit = true;
-                    System.out.println("Bye!!!");
-                }
-
-                else if(command.strip().equals("r") || command.strip().equals("R")){
-                    Dice.diceOne = Dice.roll();
-                    Dice.diceOneRolled = true;
-                    Dice.diceTwo = Dice.roll();
-                    Dice.diceTwoRolled = true;
-                }
+    public static void move(Board board)
+    {
+        String command = View.getInput().toUpperCase();
+        switch (command){
+            case "QUIT":
+                Board.quit = true;
+                System.out.println("Bye!!!");
                 break;
-            case 2:
-                break;
-            case 3:
+            case "ROLL":
+                Dices.roll(1);
+                Dices.roll(2);
                 break;
             default:
-                System.out.println("Invalid command please enter a valid command");
+                View.isWrongInput = true;
+                return;
         }
+        View.isWrongInput = false;
         switchPlayer();
     }
+
     public static void whoPlaysFirst(Board board){
 
     }
