@@ -54,15 +54,18 @@ public class Board
     public void determineTurn(){
         Dices.roll(1);
         Dices.roll(2);
+        System.out.println("Player 1 rolls Dice 1 and Player 2 rolls Dice 2");
+        System.out.println();
 
         do {
             if(Dices.diceOne < Dices.diceTwo)
                 activePlayer = 2;
             else
                 activePlayer = 1;
+            View.displayDice();
         }while(Dices.diceOne == Dices.diceTwo);
+        System.out.println();
 
-        View.displayDice();
         if(activePlayer == 1)
             System.out.println("Congratulations " + playerOne.getName() + " you got bigger dice!");
         else

@@ -30,7 +30,7 @@ public class View {
     public static void displayDice(){
         System.out.println(" Dices One \t  Dices Two");
         if(Dices.diceOneRolled && Dices.diceTwoRolled){
-            System.out.println("[  " + Dices.diceOne + "  ]  " + "    [  " + Dices.diceTwo + "  ]");
+            System.out.println("  [  " + Dices.diceOne + "  ]  " + "    [  " + Dices.diceTwo + "  ]");
             Dices.diceOneRolled = false;
             Dices.diceTwoRolled = false;
         } else {
