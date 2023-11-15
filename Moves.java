@@ -35,8 +35,4 @@ public class Moves {
         View.isWrongInput = false;
         switchPlayer();
     }
-
-    public static void whoPlaysFirst(Board board){
-
-    }
 }
