@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Moves {
 
     public boolean isNumeric(String str) {
@@ -27,15 +30,27 @@ public class Moves {
             case "ROLL":
                 Dices.roll(1);
                 Dices.roll(2);
+                View.displayDice();
+                View.displayMoves(board);
                 break;
             default:
                 View.isWrongInput = true;
                 return;
         }
-        View.isWrongInput = false;
+        if (View.isWrongInput) return;
         switchPlayer();
     }
 
+    public static boolean isValidMove(Board board, int index, int diceValue) {
+        int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
+        if (targetIndex > 0 && targetIndex <= Board.TOTAL_TRIANGLES ) {
+            Triangle targetTriangle = board.getTriangles().getTriangle(targetIndex - 1);
+            if (targetTriangle.getColor() == null || targetTriangle.getColor().equals(board.getActivePlayer().getColour()) || targetTriangle.triangle.size() <= 1) {
+                return true;
+            }
+        }
+        return false;
+    }
     public static void whoPlaysFirst(Board board){
 
     }

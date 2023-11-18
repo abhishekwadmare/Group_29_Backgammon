@@ -3,12 +3,15 @@ import java.util.Stack;
 public class Triangle implements Lane{
 
     Stack<Checker> triangle;
-    public Triangle()
+    int id;
+    public Triangle(int id)
     {
         triangle = new Stack<>();
+        this.id = id;
     }
-    public Triangle(int checkerCount, String color)
+    public Triangle(int id, int checkerCount, String color)
     {
+        this.id = id;
         triangle = new Stack<>();
         for(int i = 0; i < checkerCount; i++)
             insertChecker(new Checker(color));
@@ -38,7 +41,9 @@ public class Triangle implements Lane{
             return null;
         return triangle.peek().getColour();
     }
-
+    public int getId() {
+        return id;
+    }
     @Override
     public void insertChecker(Checker checker){
         if(this.getColor() == null || this.getColor().equals(checker.getColour()))

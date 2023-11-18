@@ -1,5 +1,5 @@
 import java.util.Scanner;
-
+import java.util.ArrayList;
 public class View {
     public static boolean isWrongInput = false;
     public static void displayBoard(Board board){
@@ -23,8 +23,11 @@ public class View {
         } else {
             player = board.playerTwo;
         }
-        System.out.println("It is now " + player.name + "'s turn:");
-        System.out.println("your checkers colour is: " + player.colour);
+        if (View.isWrongInput)
+            System.out.println("It is still " + player.getName() + "'s turn:");
+        else
+            System.out.println("It is now " + player.getName() + "'s turn:");
+        System.out.println("your checker's colour is: " + player.getColour());
     }
 
     public static void displayDice(){
@@ -57,9 +60,37 @@ public class View {
     public static String getInput(){
         Scanner sc = new Scanner(System.in);
         if(isWrongInput){
-            System.out.print("\nInvalid command please enter a valid command");
+            System.out.print("\nLast command was invalid, please enter a valid command");
+            isWrongInput = false;
         }
         System.out.print("\ninput your move: ");
         return sc.nextLine();
+    }
+    public static void displayMoves(Board board) {
+        String playerColour = board.getActivePlayer().getColour();
+        int[] diceValues = {Dices.diceOne, Dices.diceTwo, Dices.diceTwo + Dices.diceOne};
+        ArrayList<ArrayList<int[]>> allMoves = new ArrayList<>();
+
+        for (int diceValue : diceValues) {
+            ArrayList<int[]> diceMoves = new ArrayList<>();
+            for (Triangle t : board.getTriangles().getColoredTriangles()) {
+                if (t.getColor() == null || t.getColor().equals(playerColour)) {
+                    int index = t.getId();
+                    if (Moves.isValidMove(board, index, diceValue)) {
+                        int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
+                        diceMoves.add(new int[]{index, targetIndex});
+                    }
+                }
+            }
+            allMoves.add(diceMoves);
+        }
+
+        for (int i = 0; i < allMoves.size(); i++) {
+            System.out.println("Option " + (i+1) + ":");
+            int j=0;
+            for (int[] move : allMoves.get(i)) {
+                System.out.println(++j+". Play "+move[0]+"-"+move[1]);
+            }
+        }
     }
 }

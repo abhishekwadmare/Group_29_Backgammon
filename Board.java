@@ -21,6 +21,12 @@ public class Board
         triangles = new Triangles();
     }
 
+    public Player getActivePlayer()
+    {
+        if (activePlayer==1)
+            return playerOne;
+        return playerTwo;
+    }
     public Player setupPlayer(){
         System.out.println();
         Scanner scanner = new Scanner(System.in);
