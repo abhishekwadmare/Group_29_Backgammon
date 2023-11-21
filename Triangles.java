@@ -42,4 +42,15 @@ public class Triangles {
         }
         return coloredTriangles;
     }
+    public int getHomeQuadrantCheckerCount()
+    {
+        int start = (Board.activePlayer == 1) ? 1 : 19;
+        int end = start + 6;
+        int count = 0;
+        for (int i = start; i < end; i++) {
+            count += getTriangle(i).triangle.size();
+        }
+        return count;
+    }
+
 }

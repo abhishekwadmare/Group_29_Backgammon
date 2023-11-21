@@ -87,9 +87,12 @@ public class View {
 
         for (int i = 0; i < allMoves.size(); i++) {
             System.out.println("Option " + (i+1) + ":");
-            int j=0;
+            int choice=0;
             for (int[] move : allMoves.get(i)) {
-                System.out.println(++j+". Play "+move[0]+"-"+move[1]);
+                if(move[1]>Board.TOTAL_TRIANGLES || move[1]<0)
+                    System.out.println(++choice+". Play "+move[0]+"- OFF");
+                else
+                    System.out.println(++choice+". Play "+move[0]+"-"+move[1]);
             }
         }
     }

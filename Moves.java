@@ -49,6 +49,8 @@ public class Moves {
                 return true;
             }
         }
+        else
+            return board.getTriangles().getHomeQuadrantCheckerCount() == 15;
         return false;
     }
     public static void whoPlaysFirst(Board board){
