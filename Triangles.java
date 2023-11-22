@@ -42,13 +42,14 @@ public class Triangles {
         }
         return coloredTriangles;
     }
-    public int getHomeQuadrantCheckerCount()
+    public int getHomeQuadrantCheckerCount(Board board)
     {
         int start = (Board.activePlayer == 1) ? 1 : 19;
         int end = start + 6;
         int count = 0;
         for (int i = start; i < end; i++) {
-            count += getTriangle(i).triangle.size();
+            if(getTriangle(i).getColor()==null||getTriangle(i).getColor().equals(board.getActivePlayer().getColour()))
+                count += getTriangle(i).triangle.size();
         }
         return count;
     }

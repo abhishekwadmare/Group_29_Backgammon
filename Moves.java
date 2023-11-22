@@ -30,8 +30,6 @@ public class Moves {
             case "ROLL":
                 Dices.roll(1);
                 Dices.roll(2);
-                View.displayDice();
-                View.displayMoves(board);
                 break;
             default:
                 View.isWrongInput = true;
@@ -50,7 +48,7 @@ public class Moves {
             }
         }
         else
-            return board.getTriangles().getHomeQuadrantCheckerCount() == 15;
+            return board.getTriangles().getHomeQuadrantCheckerCount(board) == 15;
         return false;
     }
     public static void whoPlaysFirst(Board board){

@@ -7,7 +7,9 @@ public class View {
         displayPlayer(board);
         displayTopTriangles(board);
         displayBottomTriangles(board);
+        boolean diceRolled = Dices.status();
         displayDice();
+        if(diceRolled) displayMoves(board);
     }
 
     public static void displayHeader(){

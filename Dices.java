@@ -16,4 +16,8 @@ public class Dices
             diceTwoRolled = true;
         }
     }
+
+    public static boolean status() {
+        return diceTwoRolled && diceOneRolled;
+    }
 }
