@@ -47,7 +47,7 @@ public class Triangles {
         int start = (Board.activePlayer == 1) ? 1 : 19;
         int end = start + 6;
         int count = 0;
-        for (int i = start; i < end; i++) {
+        for (int i = start-1; i < end-1; i++) {
             if(getTriangle(i).getColor()==null||getTriangle(i).getColor().equals(board.getActivePlayer().getColour()))
                 count += getTriangle(i).triangle.size();
         }

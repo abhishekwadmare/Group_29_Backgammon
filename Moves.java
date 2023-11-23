@@ -30,7 +30,7 @@ public class Moves {
             case "ROLL":
                 Dices.roll(1);
                 Dices.roll(2);
-                break;
+                return;
             default:
                 View.isWrongInput = true;
                 return;
