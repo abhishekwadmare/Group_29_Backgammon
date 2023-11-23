@@ -55,7 +55,9 @@ public class Moves {
                     else if(option == 1)
                         Dices.diceTwo = 0;
                 }
-                moveChecker(board.possibleMoves.get(option).get(move)[0] - 1, board.possibleMoves.get(option).get(move)[1] - 1, board);
+                moveChecker(option, move, board);
+                if (View.isWrongInput)
+                    return;
                 break;
             default:
                 View.isWrongInput = true;
@@ -71,15 +73,32 @@ public class Moves {
 
     }
 
-    public static void moveChecker(int source, int target, Board board){
-        if(source - target == Dices.diceOne + Dices.diceTwo)
-            board.getActivePlayer().remainingMoves -= 2;
-        else
-            board.getActivePlayer().remainingMoves -= 1;
-        Triangle sourceTriangle = board.getTriangles().getTriangle(source);
-        Triangle targetTriangle = board.getTriangles().getTriangle(target);
-        Checker tempChecker = sourceTriangle.removeChecker();
-        targetTriangle.insertChecker(tempChecker, board);
+    public static void moveChecker(int option, int move, Board board){
+        try {
+            int source = board.possibleMoves.get(option).get(move)[0] - 1;
+            int target = board.possibleMoves.get(option).get(move)[1] - 1;
+            if (source - target == Dices.diceOne + Dices.diceTwo)
+                board.getActivePlayer().remainingMoves -= 2;
+            else
+                board.getActivePlayer().remainingMoves -= 1;
+            if(source == -1 || source == 24) {
+                Bar bar = source == -1 ? board.getRedBar() : board.getWhiteBar();
+                Triangle targetTriangle = board.getTriangles().getTriangle(target);
+                targetTriangle.insertChecker(bar.removeChecker(), board);
+            } else if(target >= Board.TOTAL_TRIANGLES || target < 0) {
+                Triangle sourceTriangle = board.getTriangles().getTriangle(source);
+                sourceTriangle.removeChecker();
+            } else {
+                Triangle sourceTriangle = board.getTriangles().getTriangle(source);
+                Triangle targetTriangle = board.getTriangles().getTriangle(target);
+                Checker tempChecker = sourceTriangle.removeChecker();
+                targetTriangle.insertChecker(tempChecker, board);
+            }
+        }
+        catch(IndexOutOfBoundsException e)
+        {
+           View.isWrongInput = true;
+        }
     }
 
     public static boolean isValidMove(Board board, int index, int diceValue) {
