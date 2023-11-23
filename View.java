@@ -41,18 +41,13 @@ public class View {
 
     public static void displayPipScore(Board board){
         int pipCount = 0;
+        Player player = board.getActivePlayer();
         for (Triangle t : board.getTriangles().getColoredTriangles()) {
             if (t.getColor() == null || t.getColor().equals(board.getActivePlayer().getColour())) {
                 int index = t.getId();
                 int pipPointCount = (board.getActivePlayer() == board.playerOne) ? index * t.getCheckerCount() : (25 - index) * t.getCheckerCount();
-                if(Board.activePlayer == 1){
-                    Board.player1_pip_count += pipPointCount;
-                    pipCount = Board.player1_pip_count;
-                }
-                else{
-                    Board.player2_pip_count += pipPointCount;
-                    pipCount = Board.player2_pip_count;
-                }
+                pipCount += pipPointCount;
+                player.setPipcount(pipCount);
             }
         }
         System.out.println("Pip Count : " + pipCount);
@@ -94,14 +89,14 @@ public class View {
             System.err.print("\nLast command was invalid, please enter a valid command :");
             isWrongInput = false;
         } else if (isPipCalled) {
-            System.out.println("Pip counts:\n"+"Player 1: "+Board.player1_pip_count+"\nPlayer 2: "+Board.player2_pip_count);
+            System.out.println("Pip counts:\n"+"Player 1: "+board.playerOne.getPipcount()+"\nPlayer 2: "+board.playerTwo.getPipcount());
             System.out.print("\ninput your move: ");
             isPipCalled = false;
         } else if (isHintCalled){
             if(!displayMoves)
-                System.out.println("HINTS: \n1.''ROLL''\n2.''PIP''");
+                System.out.println("HINTS: \n1.''ROLL''\n2.''PIP''\n3.''QUIT''");
             else
-                System.out.println("HINTS: \n1.''<Option-number> <Move-number>''\n2.''PIP''");
+                System.out.println("HINTS: \n1.''<Option-number> <Move-number>''\n2.''PIP''\n3.''QUIT''");
             System.out.print("\ninput your move: ");
             isHintCalled = false;
         }
