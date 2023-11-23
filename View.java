@@ -55,6 +55,7 @@ public class View {
     public static void displayDice(Board board){
         System.out.println(" Dices One \t  Dices Two");
         if(Dices.diceOneRolled && Dices.diceTwoRolled){
+
             if(Dices.diceOne == 0)
                 System.out.println("  [     ]  " + "    [  " + Dices.diceTwo + "  ]\n");
             else if(Dices.diceTwo == 0)
@@ -62,6 +63,7 @@ public class View {
             else
                 System.out.println("  [  " + Dices.diceOne + "  ]  " + "    [  " + Dices.diceTwo + "  ]\n");
             displayMoves = true;
+
         } else {
             System.out.println("  [     ]  " + "    [     ]\n");
         }

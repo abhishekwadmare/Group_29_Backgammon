@@ -113,5 +113,5 @@ public class Moves {
             return board.getTriangles().getHomeQuadrantCheckerCount(board) == 15;
         return false;
     }
-
+  
 }

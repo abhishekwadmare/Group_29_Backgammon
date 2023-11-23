@@ -20,6 +20,7 @@ public class Board
         redBar = new Bar("RED");
         whiteBar = new Bar("WHITE");
         triangles = new Triangles();
+        determineTurn();
     }
 
     public Player getActivePlayer()
@@ -33,7 +34,7 @@ public class Board
         Scanner scanner = new Scanner(System.in);
         String name;
         String color;
-        System.out.println("Welcome Player" + activePlayer + " !");
+        System.out.println("  ---  Welcome Player " + activePlayer + "   ---   ");
         System.out.print("Enter Your Name: ");
         name = scanner.nextLine();
         if(activePlayer == 1)
@@ -56,5 +57,29 @@ public class Board
     }
     public Triangles getTriangles() {
         return triangles;
+    }
+    public void determineTurn(){
+        Dices.roll(1);
+        Dices.roll(2);
+        System.out.println("Player 1 rolls Dice 1 and Player 2 rolls Dice 2");
+        System.out.println();
+
+        do {
+            if(Dices.diceOne < Dices.diceTwo)
+                activePlayer = 2;
+            else
+                activePlayer = 1;
+            View.displayDice();
+        }while(Dices.diceOne == Dices.diceTwo);
+        System.out.println();
+
+        if(activePlayer == 1)
+            System.out.println("Congratulations " + playerOne.getName() + " you got bigger dice!");
+        else
+            System.out.println("Congratulations " + playerTwo.getName() + " you got bigger dice!");
+        System.out.print("\nPress Enter to start Game : ");
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+        System.out.println();
     }
 }
