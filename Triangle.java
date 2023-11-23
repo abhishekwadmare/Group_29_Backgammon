@@ -14,7 +14,7 @@ public class Triangle implements Lane{
         this.id = id;
         triangle = new Stack<>();
         for(int i = 0; i < checkerCount; i++)
-            insertChecker(new Checker(color));
+            insertChecker(new Checker(color),null);
     }
 
     private String numberRepresentation(int n){
@@ -45,9 +45,14 @@ public class Triangle implements Lane{
         return id;
     }
     @Override
-    public void insertChecker(Checker checker){
-        if(this.getColor() == null || this.getColor().equals(checker.getColour()))
+    public void insertChecker(Checker checker, Board board){
+        if(this.getColor() == null || this.getColor().equals(checker.getColour())) {
             triangle.add(checker);
+        } else if(triangle.size() == 1) {
+            Bar bar =  Board.activePlayer == 1 ? board.getRedBar():board.getWhiteBar();
+            bar.insertChecker((Checker) triangle.pop(), null);
+            triangle.add(checker);
+        }
     }
     @Override
     public Checker removeChecker(){

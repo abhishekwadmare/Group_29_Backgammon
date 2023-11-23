@@ -74,31 +74,44 @@ public class View {
     public static String getInput(Board board){
         Scanner sc = new Scanner(System.in);
         if(isWrongInput){
-            System.out.print("\nLast command was invalid, please enter a valid command");
+            System.err.print("\nLast command was invalid, please enter a valid command :");
             isWrongInput = false;
         }
-        System.out.print("\ninput your move: ");
+        else
+            System.out.print("\ninput your move: ");
         return sc.nextLine();
     }
     public static void displayMoves(Board board) {
         String playerColour = board.getActivePlayer().getColour();
+        Bar curr_bar =  Board.activePlayer == 1 ? board.getWhiteBar(): board.getRedBar();
         int[] diceValues = {Dices.diceOne, Dices.diceTwo, Dices.diceTwo + Dices.diceOne};
         ArrayList<ArrayList<int[]>> allMoves = new ArrayList<>();
         if(Dices.diceOne == 0 || Dices.diceTwo == 0)
             diceValues[2] = 0;
 
         for (int diceValue : diceValues) {
-
+            int index;
             ArrayList<int[]> diceMoves = new ArrayList<>();
-            for (Triangle t : board.getTriangles().getColoredTriangles()) {
-                if(diceValue == 0)
-                    break;
-                if (t.getColor() == null || t.getColor().equals(playerColour)) {
-                    int index = t.getId();
-                    if (Moves.isValidMove(board, index, diceValue)) {
-                        int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
-                        diceMoves.add(new int[]{index, targetIndex});
+            if(curr_bar.bar.isEmpty())
+            {
+                for (Triangle t : board.getTriangles().getColoredTriangles()) {
+                    if(diceValue == 0)
+                        break;
+                    if (t.getColor() == null || t.getColor().equals(playerColour)) {
+                        index = t.getId();
+                        if (Moves.isValidMove(board, index, diceValue)) {
+                            int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
+                            diceMoves.add(new int[]{index, targetIndex});
+                        }
                     }
+                }
+            }
+            else
+            {
+                index = Board.activePlayer==1? 25:0;
+                if (Moves.isValidMove(board, index, diceValue)) {
+                    int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
+                    diceMoves.add(new int[]{index, targetIndex});
                 }
             }
             allMoves.add(diceMoves);
@@ -108,10 +121,14 @@ public class View {
             System.out.println("Option " + (i+1) + ":");
             int choice=0;
             for (int[] move : allMoves.get(i)) {
-                if(move[1]>Board.TOTAL_TRIANGLES || move[1]<0)
-                    System.out.println(++choice+". Play "+move[0]+"- OFF");
-                else
-                    System.out.println(++choice+". Play "+move[0]+"-"+move[1]);
+                String moveText = ++choice + ". Play ";
+                if(move[0] == 0|| move[0] == 25) {
+                    System.out.println(moveText + "Bar - " + move[1]);
+                } else if(move[1] > Board.TOTAL_TRIANGLES || move[1] < 0) {
+                    System.out.println(moveText + move[0] + "- OFF");
+                } else {
+                    System.out.println(moveText + move[0] + "-" + move[1]);
+                }
             }
         }
 
