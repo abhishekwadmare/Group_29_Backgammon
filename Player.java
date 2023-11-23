@@ -1,7 +1,19 @@
 public class Player
 {
     String name, colour;
+    int remainingMoves = 0;
     int score = 0;
+
+    public void setPipcount(int pipcount) {
+        this.pipcount = pipcount;
+    }
+
+    int pipcount;
+    public int getPipcount() {
+        return pipcount;
+    }
+
+
 
     public Player(String name, String colour) {
         this.name = name;

@@ -3,15 +3,18 @@ import java.util.Stack;
 public class Triangle implements Lane{
 
     Stack<Checker> triangle;
-    public Triangle()
+    int id;
+    public Triangle(int id)
     {
         triangle = new Stack<>();
+        this.id = id;
     }
-    public Triangle(int checkerCount, String color)
+    public Triangle(int id, int checkerCount, String color)
     {
+        this.id = id;
         triangle = new Stack<>();
         for(int i = 0; i < checkerCount; i++)
-            insertChecker(new Checker(color));
+            insertChecker(new Checker(color),null);
     }
 
     private String numberRepresentation(int n){
@@ -38,11 +41,18 @@ public class Triangle implements Lane{
             return null;
         return triangle.peek().getColour();
     }
-
+    public int getId() {
+        return id;
+    }
     @Override
-    public void insertChecker(Checker checker){
-        if(this.getColor() == null || this.getColor().equals(checker.getColour()))
+    public void insertChecker(Checker checker, Board board){
+        if(this.getColor() == null || this.getColor().equals(checker.getColour())) {
             triangle.add(checker);
+        } else if(triangle.size() == 1) {
+            Bar bar =  Board.activePlayer == 1 ? board.getRedBar():board.getWhiteBar();
+            bar.insertChecker((Checker) triangle.pop(), null);
+            triangle.add(checker);
+        }
     }
     @Override
     public Checker removeChecker(){
@@ -50,5 +60,8 @@ public class Triangle implements Lane{
             return triangle.pop();
         }
         return null;
+    }
+    public int getCheckerCount(){
+        return triangle.size();
     }
 }

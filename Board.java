@@ -7,6 +7,7 @@ public class Board
     private Triangles triangles;
     private Bar redBar, whiteBar;
     public Player playerOne, playerTwo;
+    ArrayList<ArrayList<int[]>> possibleMoves;
     public static boolean quit = false;
     public static final int TOTAL_TRIANGLES = 24;
     public static final int TOTAL_CHECKERS = 30;
@@ -22,6 +23,12 @@ public class Board
         determineTurn();
     }
 
+    public Player getActivePlayer()
+    {
+        if (activePlayer==1)
+            return playerOne;
+        return playerTwo;
+    }
     public Player setupPlayer(){
         System.out.println();
         Scanner scanner = new Scanner(System.in);

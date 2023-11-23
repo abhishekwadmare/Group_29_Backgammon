@@ -15,7 +15,7 @@ public class Bar implements Lane{
     }
 
     @Override
-    public void insertChecker(Checker checker){
+    public void insertChecker(Checker checker, Board board){
         if(this.getColor().equals(checker.getColour()))
             bar.add(checker);
     }
