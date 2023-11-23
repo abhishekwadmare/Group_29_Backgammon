@@ -7,6 +7,7 @@ public class Board
     private Triangles triangles;
     private Bar redBar, whiteBar;
     public Player playerOne, playerTwo;
+    ArrayList<ArrayList<int[]>> possibleMoves;
     public static boolean quit = false;
     public static final int TOTAL_TRIANGLES = 24;
     public static final int TOTAL_CHECKERS = 30;

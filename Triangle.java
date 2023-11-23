@@ -56,4 +56,7 @@ public class Triangle implements Lane{
         }
         return null;
     }
+    public int getCheckerCount(){
+        return triangle.size();
+    }
 }

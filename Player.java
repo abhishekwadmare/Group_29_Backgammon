@@ -1,6 +1,7 @@
 public class Player
 {
     String name, colour;
+    int remainingMoves = 0;
     int score = 0;
 
     public Player(String name, String colour) {

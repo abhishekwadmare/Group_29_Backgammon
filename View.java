@@ -2,14 +2,16 @@ import java.util.Scanner;
 import java.util.ArrayList;
 public class View {
     public static boolean isWrongInput = false;
+    public static boolean displayMoves = false;
     public static void displayBoard(Board board){
         displayHeader();
         displayPlayer(board);
+        displayPipScore(board);
         displayTopTriangles(board);
         displayBottomTriangles(board);
-        boolean diceRolled = Dices.status();
-        displayDice();
-        if(diceRolled) displayMoves(board);
+        displayDice(board);
+        if(displayMoves)
+            displayMoves(board);
     }
 
     public static void displayHeader(){
@@ -32,12 +34,22 @@ public class View {
         System.out.println("your checker's colour is: " + player.getColour());
     }
 
-    public static void displayDice(){
+    public static void displayPipScore(Board board){
+        int pipCount = 0;
+        for (Triangle t : board.getTriangles().getColoredTriangles()) {
+            if (t.getColor() == null || t.getColor().equals(board.getActivePlayer().getColour())) {
+                int index = t.getId();
+                int pipPointCount = (board.getActivePlayer() == board.playerOne) ? index * t.getCheckerCount() : (25 - index) * t.getCheckerCount();
+                pipCount += pipPointCount;
+            }
+        }
+        System.out.println("Pip Count : " + pipCount);
+    }
+    public static void displayDice(Board board){
         System.out.println(" Dices One \t  Dices Two");
         if(Dices.diceOneRolled && Dices.diceTwoRolled){
             System.out.println("[  " + Dices.diceOne + "  ]  " + "    [  " + Dices.diceTwo + "  ]");
-            Dices.diceOneRolled = false;
-            Dices.diceTwoRolled = false;
+            displayMoves = true;
         } else {
             System.out.println(" [     ]  " + "    [     ]");
         }
@@ -59,7 +71,7 @@ public class View {
         System.out.print("\n");
     }
 
-    public static String getInput(){
+    public static String getInput(Board board){
         Scanner sc = new Scanner(System.in);
         if(isWrongInput){
             System.out.print("\nLast command was invalid, please enter a valid command");
@@ -72,10 +84,15 @@ public class View {
         String playerColour = board.getActivePlayer().getColour();
         int[] diceValues = {Dices.diceOne, Dices.diceTwo, Dices.diceTwo + Dices.diceOne};
         ArrayList<ArrayList<int[]>> allMoves = new ArrayList<>();
+        if(Dices.diceOne == 0 || Dices.diceTwo == 0)
+            diceValues[2] = 0;
 
         for (int diceValue : diceValues) {
+
             ArrayList<int[]> diceMoves = new ArrayList<>();
             for (Triangle t : board.getTriangles().getColoredTriangles()) {
+                if(diceValue == 0)
+                    break;
                 if (t.getColor() == null || t.getColor().equals(playerColour)) {
                     int index = t.getId();
                     if (Moves.isValidMove(board, index, diceValue)) {
@@ -86,7 +103,7 @@ public class View {
             }
             allMoves.add(diceMoves);
         }
-
+        board.possibleMoves = allMoves;
         for (int i = 0; i < allMoves.size(); i++) {
             System.out.println("Option " + (i+1) + ":");
             int choice=0;
@@ -97,5 +114,6 @@ public class View {
                     System.out.println(++choice+". Play "+move[0]+"-"+move[1]);
             }
         }
+
     }
 }

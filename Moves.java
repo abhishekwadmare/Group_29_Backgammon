@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Moves {
+    public static boolean switchPlayer = false;
 
     public boolean isNumeric(String str) {
         try {
@@ -21,22 +22,58 @@ public class Moves {
 
     public static void move(Board board)
     {
-        String command = View.getInput().toUpperCase();
-        switch (command){
-            case "QUIT":
-                Board.quit = true;
-                System.out.println("Bye!!!");
+        String[] command = View.getInput(board).toUpperCase().split(" ");
+        switch (command.length){
+            case 1:
+                switch (command[0]){
+                    case "QUIT":
+                        Board.quit = true;
+                        System.out.println("Bye!!!");
+                        break;
+                    case "ROLL":
+                        Dices.roll(1);
+                        Dices.roll(2);
+                        board.getActivePlayer().remainingMoves = 2;
+                        break;
+                    default:
+                        View.isWrongInput = true;
+                        return;
+                }
                 break;
-            case "ROLL":
-                Dices.roll(1);
-                Dices.roll(2);
-                return;
+            case 2:
+                int option = Integer.parseInt(command[0]) - 1;
+                int move = Integer.parseInt(command[1]) - 1;
+                if(board.getActivePlayer().remainingMoves == 2){
+                    if(option == 0)
+                        Dices.diceOne = 0;
+                    else if(option == 1)
+                        Dices.diceTwo = 0;
+                }
+                moveChecker(board.possibleMoves.get(option).get(move)[0] - 1, board.possibleMoves.get(option).get(move)[1] - 1, board);
+                break;
             default:
                 View.isWrongInput = true;
                 return;
         }
         if (View.isWrongInput) return;
-        switchPlayer();
+        if(board.getActivePlayer().remainingMoves <= 0){
+            Dices.diceOneRolled = false;
+            Dices.diceTwoRolled = false;
+            View.displayMoves = false;
+            switchPlayer();
+        }
+
+    }
+
+    public static void moveChecker(int source, int target, Board board){
+        if(source - target == Dices.diceOne + Dices.diceTwo)
+            board.getActivePlayer().remainingMoves -= 2;
+        else
+            board.getActivePlayer().remainingMoves -= 1;
+        Triangle sourceTriangle = board.getTriangles().getTriangle(source);
+        Triangle targetTriangle = board.getTriangles().getTriangle(target);
+        Checker tempChecker = sourceTriangle.removeChecker();
+        targetTriangle.insertChecker(tempChecker);
     }
 
     public static boolean isValidMove(Board board, int index, int diceValue) {
@@ -51,7 +88,5 @@ public class Moves {
             return board.getTriangles().getHomeQuadrantCheckerCount(board) == 15;
         return false;
     }
-    public static void whoPlaysFirst(Board board){
 
-    }
 }
