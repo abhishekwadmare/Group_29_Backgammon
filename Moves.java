@@ -35,6 +35,12 @@ public class Moves {
                         Dices.roll(2);
                         board.getActivePlayer().remainingMoves = 2;
                         break;
+                    case "PIP":
+                        View.isPipCalled = true;
+                        break;
+                    case "HINT":
+                        View.isHintCalled = true;
+                        break;
                     default:
                         View.isWrongInput = true;
                         return;
@@ -73,7 +79,7 @@ public class Moves {
         Triangle sourceTriangle = board.getTriangles().getTriangle(source);
         Triangle targetTriangle = board.getTriangles().getTriangle(target);
         Checker tempChecker = sourceTriangle.removeChecker();
-        targetTriangle.insertChecker(tempChecker);
+        targetTriangle.insertChecker(tempChecker, board);
     }
 
     public static boolean isValidMove(Board board, int index, int diceValue) {

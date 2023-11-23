@@ -1,17 +1,22 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 public class View {
-    public static boolean isWrongInput = false;
+    public static boolean isWrongInput = false, isPipCalled = false, isHintCalled = false;
     public static boolean displayMoves = false;
     public static void displayBoard(Board board){
         displayHeader();
         displayPlayer(board);
         displayPipScore(board);
         displayTopTriangles(board);
+        displayBar(board);
         displayBottomTriangles(board);
         displayDice(board);
         if(displayMoves)
             displayMoves(board);
+    }
+    private static void displayBar(Board board) {
+        System.out.println("\n                                                        Bar");
+        System.out.printf("                                                       ["+board.getWhiteBar().bar.size()+" "+board.getRedBar().bar.size()+"]");
     }
 
     public static void displayHeader(){
@@ -40,7 +45,14 @@ public class View {
             if (t.getColor() == null || t.getColor().equals(board.getActivePlayer().getColour())) {
                 int index = t.getId();
                 int pipPointCount = (board.getActivePlayer() == board.playerOne) ? index * t.getCheckerCount() : (25 - index) * t.getCheckerCount();
-                pipCount += pipPointCount;
+                if(Board.activePlayer == 1){
+                    Board.player1_pip_count += pipPointCount;
+                    pipCount = Board.player1_pip_count;
+                }
+                else{
+                    Board.player2_pip_count += pipPointCount;
+                    pipCount = Board.player2_pip_count;
+                }
             }
         }
         System.out.println("Pip Count : " + pipCount);
@@ -48,10 +60,15 @@ public class View {
     public static void displayDice(Board board){
         System.out.println(" Dices One \t  Dices Two");
         if(Dices.diceOneRolled && Dices.diceTwoRolled){
-            System.out.println("[  " + Dices.diceOne + "  ]  " + "    [  " + Dices.diceTwo + "  ]");
+            if(Dices.diceOne == 0)
+                System.out.println("  [     ]  " + "    [  " + Dices.diceTwo + "  ]\n");
+            else if(Dices.diceTwo == 0)
+                System.out.println("  [  " + Dices.diceOne + "  ]  " + "    [     ]\n");
+            else
+                System.out.println("  [  " + Dices.diceOne + "  ]  " + "    [  " + Dices.diceTwo + "  ]\n");
             displayMoves = true;
         } else {
-            System.out.println(" [     ]  " + "    [     ]");
+            System.out.println("  [     ]  " + "    [     ]\n");
         }
     }
     public static void displayTopTriangles(Board board){
@@ -63,7 +80,7 @@ public class View {
     }
 
     public static void displayBottomTriangles(Board board){
-        System.out.print("\n\n\t");
+        System.out.print("\n\t");
         for(int i = 11; i >= 0; i--)
             System.out.print(board.getTriangles().getTriangle(i) + "  ");
         System.out.print("\n\t ");
@@ -76,6 +93,17 @@ public class View {
         if(isWrongInput){
             System.err.print("\nLast command was invalid, please enter a valid command :");
             isWrongInput = false;
+        } else if (isPipCalled) {
+            System.out.println("Pip counts:\n"+"Player 1: "+Board.player1_pip_count+"\nPlayer 2: "+Board.player2_pip_count);
+            System.out.print("\ninput your move: ");
+            isPipCalled = false;
+        } else if (isHintCalled){
+            if(!displayMoves)
+                System.out.println("HINTS: \n1.''ROLL''\n2.''PIP''");
+            else
+                System.out.println("HINTS: \n1.''<Option-number> <Move-number>''\n2.''PIP''");
+            System.out.print("\ninput your move: ");
+            isHintCalled = false;
         }
         else
             System.out.print("\ninput your move: ");
@@ -118,7 +146,10 @@ public class View {
         }
         board.possibleMoves = allMoves;
         for (int i = 0; i < allMoves.size(); i++) {
-            System.out.println("Option " + (i+1) + ":");
+            if(allMoves.get(i).isEmpty())
+                System.out.println("Option " + (i+1) + ": Not Available");
+            else
+                System.out.println("Option " + (i+1) + ":");
             int choice=0;
             for (int[] move : allMoves.get(i)) {
                 String moveText = ++choice + ". Play ";

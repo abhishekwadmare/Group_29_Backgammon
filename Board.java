@@ -12,6 +12,7 @@ public class Board
     public static final int TOTAL_TRIANGLES = 24;
     public static final int TOTAL_CHECKERS = 30;
     public static int activePlayer = 1;
+    public static int player1_pip_count,player2_pip_count;
 
     public Board() {
         View.displayHeader();
