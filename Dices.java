@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class Dices
 {
@@ -15,5 +16,9 @@ public class Dices
             diceTwo = rand.nextInt(6) + 1;
             diceTwoRolled = true;
         }
+    }
+
+    public static boolean status() {
+        return diceTwoRolled && diceOneRolled;
     }
 }
