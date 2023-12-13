@@ -69,7 +69,7 @@ public class Board
                 activePlayer = 2;
             else
                 activePlayer = 1;
-            View.displayDice();
+            View.displayDice(this);
         }while(Dices.diceOne == Dices.diceTwo);
         System.out.println();
 

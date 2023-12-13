@@ -16,7 +16,7 @@ public class View {
     }
     private static void displayBar(Board board) {
         System.out.println("\n                                                        Bar");
-        System.out.printf("                                                       ["+board.getWhiteBar().bar.size()+" "+board.getRedBar().bar.size()+"]");
+        System.out.printf("                                                       ["+board.getWhiteBar().bar.size()+" \u001B[31m"+board.getRedBar().bar.size()+"\u001B[0m]");
     }
 
     public static void displayHeader(){
