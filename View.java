@@ -54,16 +54,13 @@ public class View {
     }
     public static void displayDice(Board board){
         System.out.println(" Dices One \t  Dices Two");
-        if(Dices.diceOneRolled && Dices.diceTwoRolled){
-
+        if(Dices.isRolled()){
             if(Dices.diceOne == 0)
                 System.out.println("  [     ]  " + "    [  " + Dices.diceTwo + "  ]\n");
             else if(Dices.diceTwo == 0)
                 System.out.println("  [  " + Dices.diceOne + "  ]  " + "    [     ]\n");
             else
                 System.out.println("  [  " + Dices.diceOne + "  ]  " + "    [  " + Dices.diceTwo + "  ]\n");
-            displayMoves = true;
-
         } else {
             System.out.println("  [     ]  " + "    [     ]\n");
         }
@@ -91,14 +88,23 @@ public class View {
             System.err.print("\nLast command was invalid, please enter a valid command :");
             isWrongInput = false;
         } else if (isPipCalled) {
-            System.out.println("Pip counts:\n"+"Player 1: "+board.playerOne.getPipcount()+"\nPlayer 2: "+board.playerTwo.getPipcount());
+            System.out.println("Pip counts:" +
+                    "\nPlayer 1: "+board.playerOne.getPipcount() +
+                    "\nPlayer 2: "+board.playerTwo.getPipcount());
             System.out.print("\ninput your move: ");
             isPipCalled = false;
         } else if (isHintCalled){
             if(!displayMoves)
-                System.out.println("HINTS: \n1.''ROLL''\n2.''PIP''\n3.''QUIT''");
+                System.out.println("HINTS: " +
+                        "\n1.''ROLL''" +
+                        "\n2.''ROLL <Dice One Value> <Dice Two Value>''" +
+                        "\n3.''PIP''" +
+                        "\n4.''QUIT''");
             else
-                System.out.println("HINTS: \n1.''<Option-number> <Move-number>''\n2.''PIP''\n3.''QUIT''");
+                System.out.println("HINTS: " +
+                        "\n1.''<Option-number> <Move-number>''" +
+                        "\n2.''PIP''" +
+                        "\n3.''QUIT''");
             System.out.print("\ninput your move: ");
             isHintCalled = false;
         }

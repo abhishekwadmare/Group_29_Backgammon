@@ -77,6 +77,7 @@ public class Board
             System.out.println("Congratulations " + playerOne.getName() + " you got bigger dice!");
         else
             System.out.println("Congratulations " + playerTwo.getName() + " you got bigger dice!");
+        Dices.resetDice();
         System.out.print("\nPress Enter to start Game : ");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();

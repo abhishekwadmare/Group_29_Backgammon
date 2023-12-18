@@ -1,17 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Moves {
-    public static boolean switchPlayer = false;
-
-    public boolean isNumeric(String str) {
-        try {
-            double d = Double.parseDouble(str);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
 
     public static void switchPlayer(){
         if(Board.activePlayer == 1)
@@ -23,20 +10,32 @@ public class Moves {
     public static void move(Board board)
     {
         String[] command = View.getInput(board).toUpperCase().split(" ");
-        switch (command.length){
-            case 1:
+        switch (command[0].length()){
+            case 4:
                 switch (command[0]){
                     case "QUIT":
                         Board.quit = true;
                         System.out.println("Bye!!!");
                         break;
                     case "ROLL":
-                        Dices.roll(1);
-                        Dices.roll(2);
-                        board.getActivePlayer().remainingMoves = 2;
-                        break;
-                    case "PIP":
-                        View.isPipCalled = true;
+                        //Rolling dice with manual values
+                        if(command.length == 3){
+                            if(Character.isDigit(command[1].charAt(0)) &&
+                                    Character.isDigit(command[2].charAt(0))){
+                                Dices.roll(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
+                                View.displayMoves = true;
+                                board.getActivePlayer().remainingMoves = 2;
+                            } else {
+                                // If the manual values are not digits
+                                View.isWrongInput = true;
+                                return;
+                            }
+                        } else {
+                            // Random values assigned to both dice
+                            Dices.roll();
+                            View.displayMoves = true;
+                            board.getActivePlayer().remainingMoves = 2;
+                        }
                         break;
                     case "HINT":
                         View.isHintCalled = true;
@@ -46,7 +45,17 @@ public class Moves {
                         return;
                 }
                 break;
-            case 2:
+            case 3:
+                switch (command[0]){
+                    case "PIP":
+                        View.isPipCalled = true;
+                        break;
+                    default:
+                        View.isWrongInput = true;
+                        return;
+                }
+
+            case 1:
                 int option = Integer.parseInt(command[0]) - 1;
                 int move = Integer.parseInt(command[1]) - 1;
                 if(board.getActivePlayer().remainingMoves == 2){
@@ -65,8 +74,7 @@ public class Moves {
         }
         if (View.isWrongInput) return;
         if(board.getActivePlayer().remainingMoves <= 0){
-            Dices.diceOneRolled = false;
-            Dices.diceTwoRolled = false;
+            Dices.resetDice();
             View.displayMoves = false;
             switchPlayer();
         }
