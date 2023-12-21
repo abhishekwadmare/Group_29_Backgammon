@@ -7,9 +7,9 @@ public class Moves {
             Board.activePlayer = 1;
     }
 
-    public static void move(Board board)
+    public static void move(Board board, String commandLine)
     {
-        String[] command = View.getInput(board).toUpperCase().split(" ");
+        String[] command = commandLine.toUpperCase().split(" ");
         switch (command[0].length()){
             case 4:
                 switch (command[0]){
@@ -39,7 +39,20 @@ public class Moves {
                         break;
                     case "HINT":
                         View.isHintCalled = true;
-                        break;
+                        return;
+                    case "TEST":
+                        Commands commands = new Commands(command[1].toLowerCase());
+                        for(String commandL : commands){
+                            View.displayBoard(board);
+                            System.out.println("\nInput from file: " + commandL);
+                            move(board, commandL);
+                            if(View.isWrongInput){
+                                System.err.print("\nLast command from file was invalid, please enter a valid command!!!");
+                                View.isWrongInput = false;
+                                return;
+                            }
+                        }
+                        return;
                     default:
                         View.isWrongInput = true;
                         return;

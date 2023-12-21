@@ -83,6 +83,7 @@ public class View {
     }
 
     public static String getInput(Board board){
+        View.displayBoard(board);
         Scanner sc = new Scanner(System.in);
         if(isWrongInput){
             System.err.print("\nLast command was invalid, please enter a valid command :");

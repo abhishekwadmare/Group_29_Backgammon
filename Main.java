@@ -2,8 +2,7 @@ public class Main {
     public static void main(String [] args){
         Board board = new Board();
         while(!board.isGameOver()){
-            View.displayBoard(board);
-            Moves.move(board);
+            Moves.move(board, View.getInput(board));
         }
     }
 }
