@@ -17,6 +17,7 @@ public class Board
         View.displayHeader();
         playerOne = setupPlayer();
         playerTwo = setupPlayer();
+        View.setMatchLength();
         redBar = new Bar("RED");
         whiteBar = new Bar("WHITE");
         triangles = new Triangles();

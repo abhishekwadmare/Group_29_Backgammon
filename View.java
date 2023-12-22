@@ -1,8 +1,21 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 public class View {
-    public static boolean isWrongInput = false, isPipCalled = false, isHintCalled = false;
-    public static boolean displayMoves = false;
+    public static boolean isWrongInput = false,
+            isPipCalled = false,
+            isHintCalled = false,
+            displayMoves = false;
+
+    public static int matchLength;
+
+    public static void setMatchLength() {
+        System.out.println();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Match Length: ");
+        View.matchLength = scanner.nextInt();
+        System.out.println();
+    }
+
     public static void displayBoard(Board board){
         displayHeader();
         displayPlayer(board);

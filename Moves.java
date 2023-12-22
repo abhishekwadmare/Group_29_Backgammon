@@ -39,7 +39,7 @@ public class Moves {
                         break;
                     case "HINT":
                         View.isHintCalled = true;
-                        return;
+                        break;
                     case "TEST":
                         Commands commands = new Commands(command[1].toLowerCase());
                         for(String commandL : commands){
