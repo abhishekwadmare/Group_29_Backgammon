@@ -6,7 +6,7 @@ public class View {
             isHintCalled = false,
             displayMoves = false;
 
-    public static int matchLength, score;
+    public static int matchLength, score, activePlayer = 1;;
 
     public static void setMatchLength() {
         System.out.println();
@@ -45,7 +45,7 @@ public class View {
 
     public static void displayPlayer(Board board){
         Player player;
-        if(Board.activePlayer == 1){
+        if(View.activePlayer == 1){
             player = board.playerOne;
         } else {
             player = board.playerTwo;
@@ -100,6 +100,23 @@ public class View {
         System.out.print("\n");
     }
 
+    public static Player setPlayer(){
+        System.out.println();
+        Scanner scanner = new Scanner(System.in);
+        String name;
+        String color;
+        System.out.println("  ---  Welcome Player " + activePlayer + "   ---   ");
+        System.out.print("Enter Your Name: ");
+        name = scanner.nextLine();
+        if(activePlayer == 1)
+            color = "WHITE";
+        else
+            color = "RED";
+        Moves.switchPlayer();
+        System.out.println();
+        return new Player(name, color);
+    }
+
     public static String getInput(Board board){
         View.displayBoard(board);
         Scanner sc = new Scanner(System.in);
@@ -133,7 +150,7 @@ public class View {
     }
     public static void displayMoves(Board board) {
         String playerColour = board.getActivePlayer().getColour();
-        Bar curr_bar =  Board.activePlayer == 1 ? board.getWhiteBar(): board.getRedBar();
+        Bar curr_bar =  View.activePlayer == 1 ? board.getWhiteBar(): board.getRedBar();
         int[] diceValues = {Dices.diceOne, Dices.diceTwo, Dices.diceTwo + Dices.diceOne};
         ArrayList<ArrayList<int[]>> allMoves = new ArrayList<>();
         if(Dices.diceOne == 0 || Dices.diceTwo == 0)
@@ -158,7 +175,7 @@ public class View {
             }
             else
             {
-                index = Board.activePlayer==1? 25:0;
+                index = View.activePlayer==1? 25:0;
                 if (Moves.isValidMove(board, index, diceValue)) {
                     int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
                     diceMoves.add(new int[]{index, targetIndex});
@@ -177,7 +194,7 @@ public class View {
                 String moveText = ++choice + ". Play ";
                 if(move[0] == 0|| move[0] == 25) {
                     System.out.println(moveText + "Bar - " + move[1]);
-                } else if(move[1] > Board.TOTAL_TRIANGLES || move[1] < 0) {
+                } else if(move[1] > board.TOTAL_TRIANGLES || move[1] < 0) {
                     System.out.println(moveText + move[0] + "- OFF");
                 } else {
                     System.out.println(moveText + move[0] + "-" + move[1]);

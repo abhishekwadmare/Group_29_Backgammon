@@ -8,47 +8,31 @@ public class Board
     private Bar redBar, whiteBar;
     public Player playerOne, playerTwo;
     ArrayList<ArrayList<int[]>> possibleMoves;
-    public static boolean quit = false;
-    public static final int TOTAL_TRIANGLES = 24;
-    public static final int TOTAL_CHECKERS = 30;
-    public static int activePlayer = 1;
+    public boolean isQuit = false;
+    public final int TOTAL_TRIANGLES = 24;
+    public final int TOTAL_CHECKERS = 30;
 
     public Board() {
         View.displayHeader();
-        playerOne = setupPlayer();
-        playerTwo = setupPlayer();
+        playerOne = View.setPlayer();
+        playerTwo = View.setPlayer();
         View.setMatchLength();
         redBar = new Bar("RED");
         whiteBar = new Bar("WHITE");
-        triangles = new Triangles();
+        triangles = new Triangles(TOTAL_TRIANGLES);
         determineTurn();
     }
 
     public Player getActivePlayer()
     {
-        if (activePlayer==1)
+        if (View.activePlayer==1)
             return playerOne;
         return playerTwo;
     }
-    public Player setupPlayer(){
-        System.out.println();
-        Scanner scanner = new Scanner(System.in);
-        String name;
-        String color;
-        System.out.println("  ---  Welcome Player " + activePlayer + "   ---   ");
-        System.out.print("Enter Your Name: ");
-        name = scanner.nextLine();
-        if(activePlayer == 1)
-            color = "WHITE";
-        else
-            color = "RED";
-        Moves.switchPlayer();
-        System.out.println();
-        return new Player(name, color);
-    }
+
 
     public Boolean isGameOver(){
-        return Board.quit;
+        return isQuit;
     }
     public Bar getRedBar() {
         return redBar;
@@ -67,14 +51,14 @@ public class Board
 
         do {
             if(Dices.diceOne < Dices.diceTwo)
-                activePlayer = 2;
+                View.activePlayer = 2;
             else
-                activePlayer = 1;
+                View.activePlayer = 1;
             View.displayDice(this);
         }while(Dices.diceOne == Dices.diceTwo);
         System.out.println();
 
-        if(activePlayer == 1)
+        if(View.activePlayer == 1)
             System.out.println("Congratulations " + playerOne.getName() + " you got bigger dice!");
         else
             System.out.println("Congratulations " + playerTwo.getName() + " you got bigger dice!");

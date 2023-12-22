@@ -1,10 +1,10 @@
 public class Moves {
 
     public static void switchPlayer(){
-        if(Board.activePlayer == 1)
-            Board.activePlayer = 2;
+        if(View.activePlayer == 1)
+            View.activePlayer = 2;
         else
-            Board.activePlayer = 1;
+            View.activePlayer = 1;
     }
 
     public static void move(Board board, String commandLine)
@@ -14,7 +14,7 @@ public class Moves {
             case 4:
                 switch (command[0]){
                     case "QUIT":
-                        Board.quit = true;
+                        board.isQuit = true;
                         System.out.println("Bye!!!");
                         break;
                     case "ROLL":
@@ -106,7 +106,7 @@ public class Moves {
                 Bar bar = source == -1 ? board.getRedBar() : board.getWhiteBar();
                 Triangle targetTriangle = board.getTriangles().getTriangle(target);
                 targetTriangle.insertChecker(bar.removeChecker(), board);
-            } else if(target >= Board.TOTAL_TRIANGLES || target < 0) {
+            } else if(target >= board.TOTAL_TRIANGLES || target < 0) {
                 Triangle sourceTriangle = board.getTriangles().getTriangle(source);
                 sourceTriangle.removeChecker();
             } else {
@@ -124,7 +124,7 @@ public class Moves {
 
     public static boolean isValidMove(Board board, int index, int diceValue) {
         int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
-        if (targetIndex > 0 && targetIndex <= Board.TOTAL_TRIANGLES ) {
+        if (targetIndex > 0 && targetIndex <= board.TOTAL_TRIANGLES ) {
             Triangle targetTriangle = board.getTriangles().getTriangle(targetIndex - 1);
             if (targetTriangle.getColor() == null || targetTriangle.getColor().equals(board.getActivePlayer().getColour()) || targetTriangle.triangle.size() <= 1) {
                 return true;
