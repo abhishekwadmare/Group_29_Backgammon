@@ -6,7 +6,7 @@ public class View {
             isHintCalled = false,
             displayMoves = false;
 
-    public static int matchLength;
+    public static int matchLength, score;
 
     public static void setMatchLength() {
         System.out.println();
@@ -18,6 +18,7 @@ public class View {
 
     public static void displayBoard(Board board){
         displayHeader();
+        displayLengthAndScore();
         displayPlayer(board);
         displayPipScore(board);
         displayTopTriangles(board);
@@ -36,6 +37,10 @@ public class View {
         System.out.println("------------------------------------------------------------------");
         System.out.println("                    ------   Backgammon   ------                  ");
         System.out.println("------------------------------------------------------------------");
+    }
+    public static void displayLengthAndScore(){
+        System.out.print("Score: " + score);
+        System.out.println(" Length: " + matchLength);
     }
 
     public static void displayPlayer(Board board){
