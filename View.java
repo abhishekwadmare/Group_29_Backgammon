@@ -4,7 +4,8 @@ public class View {
     public static boolean isWrongInput = false,
             isPipCalled = false,
             isHintCalled = false,
-            displayMoves = false;
+            displayMoves = false,
+            isDoublingOffered = false;
 
     public static int matchLength, score, activePlayer = 1;;
 
@@ -19,6 +20,7 @@ public class View {
     public static void displayBoard(Board board){
         displayHeader();
         displayLengthAndScore();
+        displayDoubligCube(board);
         displayPlayer(board);
         displayPipScore(board);
         displayTopTriangles(board);
@@ -43,6 +45,15 @@ public class View {
         System.out.println(" Length: " + matchLength);
     }
 
+    public static void displayDoubligCube(Board board)
+    {
+        System.out.print("Doubling Cube Value: " + Dices.doublingCube);
+        if(Dices.doublingCubeOwner==null)
+            System.out.println(" Owner: None");
+        else
+            System.out.println(" Owner: "+Dices.doublingCubeOwner.getName());
+    }
+
     public static void displayPlayer(Board board){
         Player player;
         if(View.activePlayer == 1){
@@ -50,7 +61,7 @@ public class View {
         } else {
             player = board.playerTwo;
         }
-        if (View.isWrongInput)
+        if (isWrongInput||isHintCalled)
             System.out.println("It is still " + player.getName() + "'s turn:");
         else
             System.out.println("It is now " + player.getName() + "'s turn:");
@@ -131,11 +142,22 @@ public class View {
             isPipCalled = false;
         } else if (isHintCalled){
             if(!displayMoves)
-                System.out.println("HINTS: " +
-                        "\n1.''ROLL''" +
-                        "\n2.''ROLL <Dice One Value> <Dice Two Value>''" +
-                        "\n3.''PIP''" +
-                        "\n4.''QUIT''");
+                if(board.getActivePlayer()==Dices.doublingCubeOwner || Dices.doublingCubeOwner==null) {
+                    System.out.println("HINTS: " +
+                            "\n1.''ROLL''" +
+                            "\n2.''ROLL <Dice One Value> <Dice Two Value>''" +
+                            "\n3.''PIP''" +
+                            "\n4.''QUIT''" +
+                            "\n5.''DOUBLE''");
+                }
+                else
+                {
+                    System.out.println("HINTS: " +
+                            "\n1.''ROLL''" +
+                            "\n2.''ROLL <Dice One Value> <Dice Two Value>''" +
+                            "\n3.''PIP''" +
+                            "\n4.''QUIT''");
+                }
             else
                 System.out.println("HINTS: " +
                         "\n1.''<Option-number> <Move-number>''" +
@@ -143,6 +165,9 @@ public class View {
                         "\n3.''QUIT''");
             System.out.print("\ninput your move: ");
             isHintCalled = false;
+        }
+        else if (isDoublingOffered){
+            System.out.print("\nACCEPT or REFUSE Doubling: ");
         }
         else
             System.out.print("\ninput your move: ");

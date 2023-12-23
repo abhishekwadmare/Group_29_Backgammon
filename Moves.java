@@ -11,6 +11,38 @@ public class Moves {
     {
         String[] command = commandLine.toUpperCase().split(" ");
         switch (command[0].length()){
+            case 6:
+                switch (command[0]) {
+                    case "ACCEPT":
+                        if(View.isDoublingOffered)
+                        {
+                            Dices.setDoublingCubeOwner(board);
+                            View.isDoublingOffered = false;
+                        }
+                        else
+                        {
+                            View.isWrongInput = true;
+                            return;
+                        }
+                        break;
+                    case "REFUSE":
+                        if(View.isDoublingOffered)
+                        {
+                            board.isQuit = true;
+                            System.out.println(View.activePlayer+"Loses!!!");
+                        }
+                        else
+                        {
+                            View.isWrongInput = true;
+                            return;
+                        }
+                        break;
+                    case "DOUBLE":
+                        View.isDoublingOffered = true;
+                        Dices.rollDoublingCube();
+                        break;
+                }
+                break;
             case 4:
                 switch (command[0]){
                     case "QUIT":
@@ -39,7 +71,7 @@ public class Moves {
                         break;
                     case "HINT":
                         View.isHintCalled = true;
-                        break;
+                        return;
                     case "TEST":
                         Commands commands = new Commands(command[1].toLowerCase());
                         for(String commandL : commands){

@@ -2,8 +2,14 @@ import java.util.Random;
 
 public class Dices
 {
-    public static int diceOne, diceTwo;
+    public static int diceOne, diceTwo, doublingCube=1;
     private static boolean diceOneRolled = false, diceTwoRolled = false;
+    public static Player doublingCubeOwner;
+
+    public static void setDoublingCubeOwner(Board board) {
+        Dices.doublingCubeOwner = board.getActivePlayer();
+    }
+
 
     public static void roll(int diceNumber)
     {
@@ -16,7 +22,16 @@ public class Dices
             diceTwoRolled = true;
         }
     }
-
+    public static void rollDoublingCube()
+    {
+        if(doublingCube!=64)
+        {
+            doublingCube*=2;
+            System.out.println("Stakes are now doubled to: "+doublingCube);
+        }
+        else
+            System.err.println("Cannot Double Further");
+    }
     public static void roll(){
         Random rand = new Random();
         diceOne = rand.nextInt(6) + 1;
