@@ -1,52 +1,74 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Moves {
-    public static boolean switchPlayer = false;
-
-    public boolean isNumeric(String str) {
-        try {
-            double d = Double.parseDouble(str);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
 
     public static void switchPlayer(){
-        if(Board.activePlayer == 1)
-            Board.activePlayer = 2;
+        if(View.activePlayer == 1)
+            View.activePlayer = 2;
         else
-            Board.activePlayer = 1;
+            View.activePlayer = 1;
     }
 
-    public static void move(Board board)
+    public static void move(Board board, String commandLine)
     {
-        String[] command = View.getInput(board).toUpperCase().split(" ");
-        switch (command.length){
-            case 1:
+        String[] command = commandLine.toUpperCase().split(" ");
+        switch (command[0].length()){
+            case 4:
                 switch (command[0]){
                     case "QUIT":
-                        Board.quit = true;
+                        board.isQuit = true;
                         System.out.println("Bye!!!");
                         break;
                     case "ROLL":
-                        Dices.roll(1);
-                        Dices.roll(2);
-                        board.getActivePlayer().remainingMoves = 2;
-                        break;
-                    case "PIP":
-                        View.isPipCalled = true;
+                        //Rolling dice with manual values
+                        if(command.length == 3){
+                            if(Character.isDigit(command[1].charAt(0)) &&
+                                    Character.isDigit(command[2].charAt(0))){
+                                Dices.roll(Integer.parseInt(command[1]), Integer.parseInt(command[2]));
+                                View.displayMoves = true;
+                                board.getActivePlayer().remainingMoves = 2;
+                            } else {
+                                // If the manual values are not digits
+                                View.isWrongInput = true;
+                                return;
+                            }
+                        } else {
+                            // Random values assigned to both dice
+                            Dices.roll();
+                            View.displayMoves = true;
+                            board.getActivePlayer().remainingMoves = 2;
+                        }
                         break;
                     case "HINT":
                         View.isHintCalled = true;
                         break;
+                    case "TEST":
+                        Commands commands = new Commands(command[1].toLowerCase());
+                        for(String commandL : commands){
+                            View.displayBoard(board);
+                            System.out.println("\nInput from file: " + commandL);
+                            move(board, commandL);
+                            if(View.isWrongInput){
+                                System.err.print("\nLast command from file was invalid, please enter a valid command!!!");
+                                View.isWrongInput = false;
+                                return;
+                            }
+                        }
+                        return;
                     default:
                         View.isWrongInput = true;
                         return;
                 }
                 break;
-            case 2:
+            case 3:
+                switch (command[0]){
+                    case "PIP":
+                        View.isPipCalled = true;
+                        break;
+                    default:
+                        View.isWrongInput = true;
+                        return;
+                }
+
+            case 1:
                 int option = Integer.parseInt(command[0]) - 1;
                 int move = Integer.parseInt(command[1]) - 1;
                 if(board.getActivePlayer().remainingMoves == 2){
@@ -65,8 +87,7 @@ public class Moves {
         }
         if (View.isWrongInput) return;
         if(board.getActivePlayer().remainingMoves <= 0){
-            Dices.diceOneRolled = false;
-            Dices.diceTwoRolled = false;
+            Dices.resetDice();
             View.displayMoves = false;
             switchPlayer();
         }
@@ -85,7 +106,7 @@ public class Moves {
                 Bar bar = source == -1 ? board.getRedBar() : board.getWhiteBar();
                 Triangle targetTriangle = board.getTriangles().getTriangle(target);
                 targetTriangle.insertChecker(bar.removeChecker(), board);
-            } else if(target >= Board.TOTAL_TRIANGLES || target < 0) {
+            } else if(target >= board.TOTAL_TRIANGLES || target < 0) {
                 Triangle sourceTriangle = board.getTriangles().getTriangle(source);
                 sourceTriangle.removeChecker();
             } else {
@@ -103,7 +124,7 @@ public class Moves {
 
     public static boolean isValidMove(Board board, int index, int diceValue) {
         int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
-        if (targetIndex > 0 && targetIndex <= Board.TOTAL_TRIANGLES ) {
+        if (targetIndex > 0 && targetIndex <= board.TOTAL_TRIANGLES ) {
             Triangle targetTriangle = board.getTriangles().getTriangle(targetIndex - 1);
             if (targetTriangle.getColor() == null || targetTriangle.getColor().equals(board.getActivePlayer().getColour()) || targetTriangle.triangle.size() <= 1) {
                 return true;

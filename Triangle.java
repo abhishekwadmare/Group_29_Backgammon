@@ -49,7 +49,7 @@ public class Triangle implements Lane{
         if(this.getColor() == null || this.getColor().equals(checker.getColour())) {
             triangle.add(checker);
         } else if(triangle.size() == 1) {
-            Bar bar =  Board.activePlayer == 1 ? board.getRedBar():board.getWhiteBar();
+            Bar bar =  View.activePlayer == 1 ? board.getRedBar():board.getWhiteBar();
             bar.insertChecker((Checker) triangle.pop(), null);
             triangle.add(checker);
         }

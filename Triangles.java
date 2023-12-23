@@ -2,10 +2,11 @@ import java.util.ArrayList;
 
 public class Triangles {
 
-    private ArrayList<Triangle> triangles = new ArrayList<>(Board.TOTAL_TRIANGLES);
+    private ArrayList<Triangle> triangles;
 
-    public Triangles(){
-        for (int i = 1; i <= Board.TOTAL_TRIANGLES; i++) {
+    public Triangles(int size){
+        triangles = new ArrayList<>(size);
+        for (int i = 1; i <= size; i++) {
             Triangle triangle;
 
             switch (i) {
@@ -44,7 +45,7 @@ public class Triangles {
     }
     public int getHomeQuadrantCheckerCount(Board board)
     {
-        int start = (Board.activePlayer == 1) ? 1 : 19;
+        int start = (View.activePlayer == 1) ? 1 : 19;
         int end = start + 6;
         int count = 0;
         for (int i = start-1; i < end-1; i++) {

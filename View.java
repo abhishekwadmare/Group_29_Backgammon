@@ -1,10 +1,24 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 public class View {
-    public static boolean isWrongInput = false, isPipCalled = false, isHintCalled = false;
-    public static boolean displayMoves = false;
+    public static boolean isWrongInput = false,
+            isPipCalled = false,
+            isHintCalled = false,
+            displayMoves = false;
+
+    public static int matchLength, score, activePlayer = 1;;
+
+    public static void setMatchLength() {
+        System.out.println();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Match Length: ");
+        View.matchLength = scanner.nextInt();
+        System.out.println();
+    }
+
     public static void displayBoard(Board board){
         displayHeader();
+        displayLengthAndScore();
         displayPlayer(board);
         displayPipScore(board);
         displayTopTriangles(board);
@@ -24,10 +38,14 @@ public class View {
         System.out.println("                    ------   Backgammon   ------                  ");
         System.out.println("------------------------------------------------------------------");
     }
+    public static void displayLengthAndScore(){
+        System.out.print("Score: " + score);
+        System.out.println(" Length: " + matchLength);
+    }
 
     public static void displayPlayer(Board board){
         Player player;
-        if(Board.activePlayer == 1){
+        if(View.activePlayer == 1){
             player = board.playerOne;
         } else {
             player = board.playerTwo;
@@ -54,16 +72,13 @@ public class View {
     }
     public static void displayDice(Board board){
         System.out.println(" Dices One \t  Dices Two");
-        if(Dices.diceOneRolled && Dices.diceTwoRolled){
-
+        if(Dices.isRolled()){
             if(Dices.diceOne == 0)
                 System.out.println("  [     ]  " + "    [  " + Dices.diceTwo + "  ]\n");
             else if(Dices.diceTwo == 0)
                 System.out.println("  [  " + Dices.diceOne + "  ]  " + "    [     ]\n");
             else
                 System.out.println("  [  " + Dices.diceOne + "  ]  " + "    [  " + Dices.diceTwo + "  ]\n");
-            displayMoves = true;
-
         } else {
             System.out.println("  [     ]  " + "    [     ]\n");
         }
@@ -85,20 +100,47 @@ public class View {
         System.out.print("\n");
     }
 
+    public static Player setPlayer(){
+        System.out.println();
+        Scanner scanner = new Scanner(System.in);
+        String name;
+        String color;
+        System.out.println("  ---  Welcome Player " + activePlayer + "   ---   ");
+        System.out.print("Enter Your Name: ");
+        name = scanner.nextLine();
+        if(activePlayer == 1)
+            color = "WHITE";
+        else
+            color = "RED";
+        Moves.switchPlayer();
+        System.out.println();
+        return new Player(name, color);
+    }
+
     public static String getInput(Board board){
+        View.displayBoard(board);
         Scanner sc = new Scanner(System.in);
         if(isWrongInput){
             System.err.print("\nLast command was invalid, please enter a valid command :");
             isWrongInput = false;
         } else if (isPipCalled) {
-            System.out.println("Pip counts:\n"+"Player 1: "+board.playerOne.getPipcount()+"\nPlayer 2: "+board.playerTwo.getPipcount());
+            System.out.println("Pip counts:" +
+                    "\nPlayer 1: "+board.playerOne.getPipcount() +
+                    "\nPlayer 2: "+board.playerTwo.getPipcount());
             System.out.print("\ninput your move: ");
             isPipCalled = false;
         } else if (isHintCalled){
             if(!displayMoves)
-                System.out.println("HINTS: \n1.''ROLL''\n2.''PIP''\n3.''QUIT''");
+                System.out.println("HINTS: " +
+                        "\n1.''ROLL''" +
+                        "\n2.''ROLL <Dice One Value> <Dice Two Value>''" +
+                        "\n3.''PIP''" +
+                        "\n4.''QUIT''");
             else
-                System.out.println("HINTS: \n1.''<Option-number> <Move-number>''\n2.''PIP''\n3.''QUIT''");
+                System.out.println("HINTS: " +
+                        "\n1.''<Option-number> <Move-number>''" +
+                        "\n2.''PIP''" +
+                        "\n3.''QUIT''");
             System.out.print("\ninput your move: ");
             isHintCalled = false;
         }
@@ -108,7 +150,7 @@ public class View {
     }
     public static void displayMoves(Board board) {
         String playerColour = board.getActivePlayer().getColour();
-        Bar curr_bar =  Board.activePlayer == 1 ? board.getWhiteBar(): board.getRedBar();
+        Bar curr_bar =  View.activePlayer == 1 ? board.getWhiteBar(): board.getRedBar();
         int[] diceValues = {Dices.diceOne, Dices.diceTwo, Dices.diceTwo + Dices.diceOne};
         ArrayList<ArrayList<int[]>> allMoves = new ArrayList<>();
         if(Dices.diceOne == 0 || Dices.diceTwo == 0)
@@ -133,7 +175,7 @@ public class View {
             }
             else
             {
-                index = Board.activePlayer==1? 25:0;
+                index = View.activePlayer==1? 25:0;
                 if (Moves.isValidMove(board, index, diceValue)) {
                     int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
                     diceMoves.add(new int[]{index, targetIndex});
@@ -152,7 +194,7 @@ public class View {
                 String moveText = ++choice + ". Play ";
                 if(move[0] == 0|| move[0] == 25) {
                     System.out.println(moveText + "Bar - " + move[1]);
-                } else if(move[1] > Board.TOTAL_TRIANGLES || move[1] < 0) {
+                } else if(move[1] > board.TOTAL_TRIANGLES || move[1] < 0) {
                     System.out.println(moveText + move[0] + "- OFF");
                 } else {
                     System.out.println(moveText + move[0] + "-" + move[1]);
