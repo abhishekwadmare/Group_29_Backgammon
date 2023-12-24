@@ -1,4 +1,7 @@
 /**
+ * Group 29, Piyush Deshmukh(23200229) & Abhishek Wadmare(23200277)
+ */
+/**
  * Represents a single checker piece
  */
 public class Checker {

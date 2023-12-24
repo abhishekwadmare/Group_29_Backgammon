@@ -2,6 +2,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Group 29, Piyush Deshmukh(23200229) & Abhishek Wadmare(23200277)
+ */
 public class Board {
     private final Triangles triangles;
     private final Bar redBar;

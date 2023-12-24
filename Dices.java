@@ -1,3 +1,6 @@
+/**
+ * Group 29, Piyush Deshmukh(23200229) & Abhishek Wadmare(23200277)
+ */
 import java.util.Random;
 
 public class Dices {

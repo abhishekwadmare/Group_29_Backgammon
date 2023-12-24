@@ -1,6 +1,6 @@
 import java.util.Stack;
 
-/**
+/** Group 29, Piyush Deshmukh(23200229) & Abhishek Wadmare(23200277)
  * This class represents a Bar in a game, which implements the Lane interface.
  */
 public class Bar implements Lane {
