@@ -1,28 +1,25 @@
-public class Player
-{
-    String name, colour;
+public class Player {
+    private final String name;
+    private final String colour;
+    private int pipCount = 167;
     int remainingMoves = 0;
-    int score = 0;
+    private int score=0;
 
-    public int getWins() {
-        return wins;
+    public int getScore() {
+        return score;
     }
 
-    public void setWins(int wins) {
-        this.wins += wins;
+    public void setScore(int score) {
+        this.score += score;
     }
 
-    private int wins=0;
-    public void setPipCount(int pipcount) {
-        this.pipcount = pipcount;
+    public void setPipCount(int pipCount) {
+        this.pipCount = pipCount;
     }
 
-    int pipcount = 167;
-    public int getPipcount() {
-        return pipcount;
+    public int getPipCount() {
+        return pipCount;
     }
-
-
 
     public Player(String name, String colour) {
         this.name = name;
@@ -37,18 +34,9 @@ public class Player
         return colour;
     }
 
-    public void resetPlayer(){
+    public void resetPlayer() {
         remainingMoves = 0;
-        score = 0;
-        pipcount = 167;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
+        pipCount = 167;
     }
 
 }

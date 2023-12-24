@@ -1,8 +1,8 @@
 import java.util.Stack;
 
-public class Bar implements Lane{
+public class Bar implements Lane {
     Stack<Checker> bar;
-    String color;
+    private final String color;
 
     public Bar(String color) {
         this.bar = new Stack<>();
@@ -10,26 +10,25 @@ public class Bar implements Lane{
     }
 
     @Override
-    public String getColor(){
+    public String getColor() {
         return this.color;
     }
 
     @Override
-    public void insertChecker(Checker checker, Board board){
-        if(this.getColor().equals(checker.getColour()))
+    public void insertChecker(Checker checker, Board board) {
+        if (this.getColor().equals(checker.getColour()))
             bar.add(checker);
     }
 
     @Override
-    public Checker removeChecker(){
-        if(!bar.isEmpty()){
+    public Checker removeChecker() {
+        if (!bar.isEmpty()) {
             return bar.pop();
         }
         return null;
     }
 
-    public void resetBar()
-    {
+    public void resetBar() {
         bar.clear();
     }
 }

@@ -1,21 +1,19 @@
 import java.util.Random;
 
-public class Dices
-{
-    public static int diceOne, diceTwo, doublingCube=1;
+public class Dices {
+    public static int diceOne, diceTwo, doublingCube = 1;
     private static boolean diceOneRolled = false, diceTwoRolled = false;
     public static Player doublingCubeOwner;
 
     public static void setDoublingCubeOwner(Board board) {
         Dices.doublingCubeOwner = board.getActivePlayer();
-        doublingCube*=2;
+        doublingCube *= 2;
     }
 
 
-    public static void roll(int diceNumber)
-    {
+    public static void roll(int diceNumber) {
         Random rand = new Random();
-        if(diceNumber==1) {
+        if (diceNumber == 1) {
             diceOne = rand.nextInt(6) + 1;
             diceOneRolled = true;
         } else {
@@ -23,19 +21,17 @@ public class Dices
             diceTwoRolled = true;
         }
     }
-    public static void rollDoublingCube()
-    {
-        if(doublingCube!=64)
-        {
-            System.out.println("Stakes are now being doubled to: "+doublingCube*2);
-        }
-        else
-        {
+
+    public static void rollDoublingCube() {
+        if (doublingCube != 64) {
+            System.out.println("Stakes are now being doubled to: " + doublingCube * 2);
+        } else {
             View.isDoublingOffered = false;
             System.err.println("Cannot Double Further");
         }
     }
-    public static void roll(){
+
+    public static void roll() {
         Random rand = new Random();
         diceOne = rand.nextInt(6) + 1;
         diceTwo = rand.nextInt(6) + 1;
@@ -43,14 +39,14 @@ public class Dices
         diceTwoRolled = true;
     }
 
-    public static void roll(int diceOneValue, int diceTwoValue){
+    public static void roll(int diceOneValue, int diceTwoValue) {
         diceOne = diceOneValue;
         diceTwo = diceTwoValue;
         diceOneRolled = true;
         diceTwoRolled = true;
     }
 
-    public static void resetDice(){
+    public static void resetDice() {
         diceOneRolled = false;
         diceTwoRolled = false;
     }

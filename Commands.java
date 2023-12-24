@@ -1,9 +1,9 @@
 import java.io.*;
 import java.util.ArrayList;
 
-public class Commands extends ArrayList<String>{
+public class Commands extends ArrayList<String> {
 
-    public Commands(String fileName){
+    public Commands(String fileName) {
         loadCommands(fileName);
     }
 

@@ -1,6 +1,5 @@
 
-public class Checker
-{
+public class Checker {
     String colour;
 
     public Checker(String colour) {
