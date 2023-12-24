@@ -8,8 +8,7 @@ public class View {
             displayMoves = false,
             isDoublingOffered = false;
 
-    public static int matchLength, score, activePlayer = 1;
-    ;
+    public static int matchLength, activePlayer = 1;
 
     public static void setMatchLength() {
         System.out.println();
@@ -18,21 +17,27 @@ public class View {
         View.matchLength = scanner.nextInt();
         System.out.println();
     }
-
+    /**
+     * Displays the game board
+     * @param board The Board
+     */
     public static void displayBoard(Board board) {
         displayHeader();
         displayLengthAndScore(board);
-        displayDoublingCube(board);
+        displayDoublingCube();
         displayPlayer(board);
         displayPipScore(board);
         displayTopTriangles(board);
         displayBar(board);
         displayBottomTriangles(board);
-        displayDice(board);
+        displayDice();
         if (displayMoves)
             displayMoves(board);
     }
-
+    /**
+     * Displays the bar with checker counts
+     * @param board The Board
+     */
     private static void displayBar(Board board) {
         System.out.println("\n                                                        Bar");
         System.out.printf("                                                       [" + board.getWhiteBar().bar.size() + " \u001B[31m" + board.getRedBar().bar.size() + "\u001B[0m]");
@@ -43,20 +48,28 @@ public class View {
         System.out.println("                    ------   Backgammon   ------                  ");
         System.out.println("------------------------------------------------------------------");
     }
-
+    /**
+     * Displays current match length and scores
+     * @param board The Board
+     */
     public static void displayLengthAndScore(Board board) {
         System.out.print("Scores: " + board.playerOne.getName()+": "+board.playerOne.getScore() +", "+board.playerTwo.getName()+": "+board.playerTwo.getScore());
         System.out.println("    Match Length: " + matchLength);
     }
-
-    public static void displayDoublingCube(Board board) {
+    /**
+     * Displays doubling cube value and owner
+     */
+    public static void displayDoublingCube() {
         System.out.print("Doubling Cube Value: " + Dices.doublingCube);
         if (Dices.doublingCubeOwner == null)
             System.out.println(" Owner: None");
         else
             System.out.println(" Owner: " + Dices.doublingCubeOwner.getName());
     }
-
+    /**
+     * Displays active player and color
+     * @param board The Board
+     */
     public static void displayPlayer(Board board) {
         Player player;
         if (View.activePlayer == 1) {
@@ -70,7 +83,10 @@ public class View {
             System.out.println("It is now " + player.getName() + "'s turn:");
         System.out.println("your checker's colour is: " + player.getColour());
     }
-
+    /**
+     * Displays pip count for active player
+     * @param board The Board
+     */
     public static void displayPipScore(Board board) {
         int pipCount = 0;
         Player player = board.getActivePlayer();
@@ -84,8 +100,10 @@ public class View {
         }
         System.out.println("Pip Count : " + pipCount);
     }
-
-    public static void displayDice(Board board) {
+    /**
+     * Displays dice values
+     */
+    public static void displayDice() {
         System.out.println(" Dices One \t  Dices Two");
         if (Dices.isRolled()) {
             if (Dices.diceOne == 0)
@@ -98,7 +116,10 @@ public class View {
             System.out.println("  [     ]  " + "    [     ]\n");
         }
     }
-
+    /**
+     * Displays top triangle row
+     * @param board The Board
+     */
     public static void displayTopTriangles(Board board) {
         System.out.print("\t   13       14       15       16       17       18       19       20       21       22       23       24");
         System.out.print("\n\t");
@@ -106,7 +127,10 @@ public class View {
             System.out.printf(board.getTriangles().getTriangle(i) + "  ");
 
     }
-
+    /**
+     * Displays bottom triangle row
+     * @param board The Board
+     */
     public static void displayBottomTriangles(Board board) {
         System.out.print("\n\t");
         for (int i = 11; i >= 0; i--)
@@ -132,7 +156,11 @@ public class View {
         System.out.println();
         return new Player(name, color);
     }
-
+    /**
+     * Gets player input move
+     * @param board The Board
+     * @return Input string
+     */
     public static String getInput(Board board) {
         View.displayBoard(board);
         Scanner sc = new Scanner(System.in);
@@ -148,24 +176,27 @@ public class View {
         } else if (isHintCalled) {
             if (!displayMoves)
                 if (board.getActivePlayer() == Dices.doublingCubeOwner || Dices.doublingCubeOwner == null) {
-                    System.out.println("HINTS: " +
-                            "\n1.''ROLL''" +
-                            "\n2.''ROLL <Dice One Value> <Dice Two Value>''" +
-                            "\n3.''PIP''" +
-                            "\n4.''QUIT''" +
-                            "\n5.''DOUBLE''");
+                    System.out.println("""
+                            HINTS:\s
+                            1.''ROLL''
+                            2.''ROLL <Dice One Value> <Dice Two Value>''
+                            3.''PIP''
+                            4.''QUIT''
+                            5.''DOUBLE''""");
                 } else {
-                    System.out.println("HINTS: " +
-                            "\n1.''ROLL''" +
-                            "\n2.''ROLL <Dice One Value> <Dice Two Value>''" +
-                            "\n3.''PIP''" +
-                            "\n4.''QUIT''");
+                    System.out.println("""
+                            HINTS:\s
+                            1.''ROLL''
+                            2.''ROLL <Dice One Value> <Dice Two Value>''
+                            3.''PIP''
+                            4.''QUIT''""");
                 }
             else
-                System.out.println("HINTS: " +
-                        "\n1.''<Option-number> <Move-number>''" +
-                        "\n2.''PIP''" +
-                        "\n3.''QUIT''");
+                System.out.println("""
+                        HINTS:\s
+                        1.''<Option-number> <Move-number>''
+                        2.''PIP''
+                        3.''QUIT''""");
             System.out.print("\ninput your move: ");
             isHintCalled = false;
         } else if (isDoublingOffered) {
@@ -174,7 +205,10 @@ public class View {
             System.out.print("\ninput your move: ");
         return sc.nextLine();
     }
-
+    /**
+     * Displays possible moves for the current player
+     * @param board The Board
+     */
     public static void displayMoves(Board board) {
         String playerColour = board.getActivePlayer().getColour();
         Bar curr_bar = View.activePlayer == 1 ? board.getWhiteBar() : board.getRedBar();
@@ -190,11 +224,11 @@ public class View {
                 for (Triangle t : board.getTriangles().getColoredTriangles()) {
                     if (diceValue == 0)
                         break;
-                    if (t.getColor() == null || t.getColor().equals(playerColour)) {
+                    if (t.getColor() == null || t.getColor().equals(playerColour)) {    // If the triangle is unoccupied or occupied by the active player
                         index = t.getId();
                         if (Moves.isValidMove(board, index, diceValue)) {
                             int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
-                            diceMoves.add(new int[]{index, targetIndex});
+                            diceMoves.add(new int[]{index, targetIndex});               // Add the move to the list
                         }
                     }
                 }
@@ -202,13 +236,13 @@ public class View {
                 index = View.activePlayer == 1 ? 25 : 0;
                 if (Moves.isValidMove(board, index, diceValue)) {
                     int targetIndex = (board.getActivePlayer() == board.playerOne) ? index - diceValue : index + diceValue;
-                    diceMoves.add(new int[]{index, targetIndex});
+                    diceMoves.add(new int[]{index, targetIndex});                       // Add the move to the list
                 }
             }
-            allMoves.add(diceMoves);
+            allMoves.add(diceMoves);                            // Add the list of moves for the current dice value to the list of all moves
         }
-        board.possibleMoves = allMoves;
-        for (int i = 0; i < allMoves.size(); i++) {
+        board.possibleMoves = allMoves;                         // Set the possible moves for the board
+        for (int i = 0; i < allMoves.size(); i++) {             // Display the possible moves
             if (allMoves.get(i).isEmpty())
                 System.out.println("Option " + (i + 1) + ": Not Available");
             else

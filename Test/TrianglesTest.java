@@ -1,6 +1,8 @@
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
+import java.util.ArrayList;
+
+import static org.junit.Assert.*;
 public class TrianglesTest {
 
     @Test
@@ -24,7 +26,7 @@ public class TrianglesTest {
         ArrayList<Triangle> coloredTriangles = triangles.getColoredTriangles();
 
         // Check if the colored triangles are correct
-        assertEquals(10, coloredTriangles.size());
+        assertEquals(8, coloredTriangles.size());
     }
 
     @Test
@@ -41,12 +43,11 @@ public class TrianglesTest {
                 case 1, 24:
                     assertEquals(2, triangle.getCheckerCount());
                     break;
-                case 6, 8, 13, 17, 19:
-                    assertEquals(0, triangle.getCheckerCount());
-                    break;
-                case 12:
+                case 6, 13, 12, 19:
                     assertEquals(5, triangle.getCheckerCount());
-                    assertEquals("RED", triangle.getColor());
+                    break;
+                case 8,17:
+                    assertEquals(3, triangle.getCheckerCount());
                     break;
                 default:
                     assertEquals(0, triangle.getCheckerCount());

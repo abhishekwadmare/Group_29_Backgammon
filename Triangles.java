@@ -4,6 +4,17 @@ public class Triangles {
 
     private final ArrayList<Triangle> triangles;
 
+    /**
+     *
+     * @return triangles
+     */
+    public ArrayList<Triangle> getTriangles() {
+        return triangles;
+    }
+    /**
+     * Constructs the triangle list of the given size
+     * @param size Number of triangles
+     */
     public Triangles(int size) {
         triangles = new ArrayList<>(size);
         for (int i = 1; i <= size; i++) {
@@ -35,11 +46,18 @@ public class Triangles {
             triangles.add(triangle);
         }
     }
-
+    /**
+     * Gets a triangle by index
+     * @param i Index of triangle
+     * @return Triangle object
+     */
     public Triangle getTriangle(int i) {
         return triangles.get(i);
     }
-
+    /**
+     * Gets only triangles containing checkers
+     * @return List of populated triangles
+     */
     public ArrayList<Triangle> getColoredTriangles() {
         ArrayList<Triangle> coloredTriangles = new ArrayList<>();
         for (int i = 0; i < triangles.size(); i++) {
@@ -49,7 +67,11 @@ public class Triangles {
         }
         return coloredTriangles;
     }
-
+    /**
+     * Gets checker count in active player's home quadrant
+     * @param board The Board
+     * @return Checker count
+     */
     public int getHomeQuadrantCheckerCount(Board board) {
         int start = (View.activePlayer == 1) ? 1 : 19;
         int end = start + 6;
@@ -60,7 +82,9 @@ public class Triangles {
         }
         return count;
     }
-
+    /**
+     * Resets all triangles for a new game
+     */
     public void resetTriangles() {
         for (Triangle triangle : triangles) {
             switch (triangle.getId()) {

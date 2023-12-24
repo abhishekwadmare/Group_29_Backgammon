@@ -11,7 +11,9 @@ public class Board {
     public boolean isQuit = false;
     public final int TOTAL_TRIANGLES = 24;
     public static int no_of_matches = 0;
-
+    /**
+     * Constructs a new Board
+     */
     public Board() {
         View.displayHeader();
         playerOne = View.setPlayer();
@@ -23,7 +25,12 @@ public class Board {
         determineTurn();
     }
 
+    /**
+     * Checks if the match is over
+     * @return true if match is over, false otherwise
+     */
     public Boolean isMatchOver() {
+        // If the game is quit, the player who didn't quit wins
         if (isQuit)
             if (getActivePlayer() == playerTwo) {
                 System.out.println(playerOne.getName() + " Wins a Single!!");
@@ -34,17 +41,21 @@ public class Board {
                 playerTwo.setScore(1);
                 return true;
             }
-        if (playerOne.getPipCount() == 0 || (isQuit && (getActivePlayer() == playerTwo))) {
+        // If player one has no pips left or the game is quit by player two, player one wins
+        if (playerOne.getPipCount() == 0 ) {
             System.out.print(playerOne.getName() + "Wins!!");
+            // If there are checkers in the home quadrant of the winner or on the bar, it's a Backgammon
             if (triangles.getHomeQuadrantCheckerCount(this) > 0 || !redBar.bar.isEmpty()){
                 System.out.println(" a BackGammon with " + (3 * Dices.doublingCube) + " points");
                 playerOne.setScore(3 * Dices.doublingCube);
             }
+            // Count the opponent's checkers
             int opponent_checkers = 0;
             for (Triangle t : triangles.getColoredTriangles()) {
                 if (t.getColor().equals("RED"))
                     opponent_checkers++;
             }
+            // If all opponent's checkers are present and not even one is borne off, it's a Gammon
             if (opponent_checkers == 15)
             {
                 System.out.println(" a Gammon with " + (2 * Dices.doublingCube) + " points");
@@ -54,18 +65,21 @@ public class Board {
                 System.out.print(" a Single");
             playerOne.setScore(1);
             return true;
-        } else if (playerTwo.getPipCount() == 0 || (isQuit && (getActivePlayer() == playerOne))) {
+        } else if (playerTwo.getPipCount() == 0 ) {             // If player one has no pips left or the game is quit by player two, player one wins
             System.out.println(playerTwo.getName() + "Wins!!");
+            // If there are checkers in the home quadrant of the winner or on the bar, it's a Backgammon
             if (triangles.getHomeQuadrantCheckerCount(this) > 0 || !whiteBar.bar.isEmpty())
             {
                 System.out.println(" a BackGammon" + (3 * Dices.doublingCube) + " points");
                 playerTwo.setScore(3 * Dices.doublingCube);
             }
+            // Count the opponent's checkers
             int opponent_checkers = 0;
             for (Triangle t : triangles.getColoredTriangles()) {
                 if (t.getColor().equals("WHITE"))
                     opponent_checkers++;
             }
+            // If all opponent's checkers are present and not even one is borne off, it's a Gammon
             if (opponent_checkers == 15)
             {
                 System.out.println(" a Gammon with " + (2 * Dices.doublingCube) + " points");
@@ -78,7 +92,10 @@ public class Board {
         }
         return isQuit;
     }
-
+    /**
+     * Checks if the overall game is over
+     * @return true if game is over, false otherwise
+     */
     public boolean isGameOver() {
         if (isMatchOver() || isQuit) {
             no_of_matches++;
@@ -101,7 +118,9 @@ public class Board {
         return false;
     }
 
-
+    /**
+     * Sets up the board for the next match
+     */
     private void setupNextMatch() {
         View.displayHeader();
         playerOne.resetPlayer();
@@ -111,25 +130,39 @@ public class Board {
         triangles.resetTriangles();
         determineTurn();
     }
-
+    /**
+     * Gets the current active player
+     * @return The active Player object
+     */
     public Player getActivePlayer() {
         if (View.activePlayer == 1)
             return playerOne;
         return playerTwo;
     }
-
+    /**
+     * Gets the red bar
+     * @return The red Bar object
+     */
     public Bar getRedBar() {
         return redBar;
     }
-
+    /**
+     * Gets the white bar
+     * @return The white Bar object
+     */
     public Bar getWhiteBar() {
         return whiteBar;
     }
-
+    /**
+     * Gets the Triangles board
+     * @return The Triangles object
+     */
     public Triangles getTriangles() {
         return triangles;
     }
-
+    /**
+     * Rolls dice to determine first player and starts the game
+     */
     public void determineTurn() {
         Dices.roll(1);
         Dices.roll(2);
@@ -141,7 +174,7 @@ public class Board {
                 View.activePlayer = 2;
             else
                 View.activePlayer = 1;
-            View.displayDice(this);
+            View.displayDice();
         } while (Dices.diceOne == Dices.diceTwo);
         System.out.println();
 

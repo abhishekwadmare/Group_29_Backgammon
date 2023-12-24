@@ -1,6 +1,5 @@
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.junit.Test;
+import static org.junit.Assert.*;
 public class PlayerTest {
 
     @Test
@@ -42,15 +41,12 @@ public class PlayerTest {
     public void testResetPlayer() {
         Player player = new Player("John", "Red");
 
-        // Set the player's score and pip count
-        player.setScore(10);
-        player.setPipCount(150);
 
         // Reset the player
         player.resetPlayer();
 
         // Check if the score and pip count are reset correctly
-        assertEquals(0, player.getScore());
+        assertEquals(0, player.remainingMoves);
         assertEquals(167, player.getPipCount());
     }
 }

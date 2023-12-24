@@ -4,12 +4,20 @@ public class Triangle implements Lane {
 
     Stack<Checker> triangle;
     private final int id;
-
+    /**
+     * Constructs a triangle with the given ID
+     * @param id Triangle ID
+     */
     public Triangle(int id) {
         triangle = new Stack<>();
         this.id = id;
     }
-
+    /**
+     * Constructs a triangle with given checkers
+     * @param id ID of the triangle
+     * @param checkerCount Number of checkers
+     * @param color Color of the checkers
+     */
     public Triangle(int id, int checkerCount, String color) {
         this.id = id;
         triangle = new Stack<>();
@@ -24,7 +32,10 @@ public class Triangle implements Lane {
             return Integer.toString(n);
         }
     }
-
+    /**
+     * Gets a string representation of this triangle
+     * @return String representation
+     */
     public String toString() {
         if (triangle.isEmpty()) {
             return "  [  ] ";
@@ -34,18 +45,28 @@ public class Triangle implements Lane {
             return "  [\u001B[0m" + numberRepresentation(triangle.size()) + "] ";
         }
     }
-
+    /**
+     * Gets color based on checkers in triangle
+     * @return Color as a string
+     */
     @Override
     public String getColor() {
         if (triangle.isEmpty())
             return null;
         return triangle.peek().getColour();
     }
-
+    /**
+     * Gets the ID of this triangle
+     * @return Triangle ID
+     */
     public int getId() {
         return id;
     }
-
+    /**
+     * Inserts checker into this triangle
+     * @param checker Checker to insert
+     * @param board Game Board
+     */
     @Override
     public void insertChecker(Checker checker, Board board) {
         if (this.getColor() == null || this.getColor().equals(checker.getColour())) {
@@ -56,7 +77,10 @@ public class Triangle implements Lane {
             triangle.add(checker);
         }
     }
-
+    /**
+     * Removes and returns a checker
+     * @return Removed checker
+     */
     @Override
     public Checker removeChecker() {
         if (!triangle.isEmpty()) {
@@ -64,11 +88,19 @@ public class Triangle implements Lane {
         }
         return null;
     }
-
+    /**
+     * Gets the number of checkers in this triangle
+     * @return The checker count
+     */
     public int getCheckerCount() {
         return triangle.size();
     }
-
+    /**
+     * Resets this triangle for a new game
+     * Clears existing checkers and inserts new checkers
+     * @param checkerCount Number of checkers to insert
+     * @param color Color of the checkers
+     */
     public void resetTriangle(int checkerCount, String color) {
         triangle.clear();
         for (int i = 0; i < checkerCount; i++)
