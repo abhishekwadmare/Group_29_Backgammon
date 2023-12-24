@@ -1,9 +1,8 @@
 public class Main {
-    public static void main(String [] args){
+    public static void main(String[] args) {
         Board board = new Board();
-        while(!board.isGameOver()){
-            View.displayBoard(board);
-            Moves.move(board);
+        while (!board.isGameOver()) {
+            Moves.move(board, View.getInput(board));
         }
     }
 }
