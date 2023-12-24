@@ -54,5 +54,31 @@ public class Triangles {
         }
         return count;
     }
-
+    public void resetTriangles() {
+        for (Triangle triangle : triangles) {
+            switch (triangle.getId()) {
+                case 1:
+                    triangle.resetTriangle(2, "RED");
+                    break;
+                case 6, 13:
+                    triangle.resetTriangle(5, "WHITE");
+                    break;
+                case 8:
+                    triangle.resetTriangle(3, "WHITE");
+                    break;
+                case 12, 19:
+                    triangle.resetTriangle(5, "RED");
+                    break;
+                case 17:
+                    triangle.resetTriangle(3, "RED");
+                    break;
+                case 24:
+                    triangle.resetTriangle(2, "WHITE");
+                    break;
+                default:
+                    triangle.resetTriangle(0,null);
+                    break;
+            }
+        }
+    }
 }

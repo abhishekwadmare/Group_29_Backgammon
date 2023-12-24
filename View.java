@@ -20,7 +20,7 @@ public class View {
     public static void displayBoard(Board board){
         displayHeader();
         displayLengthAndScore();
-        displayDoubligCube(board);
+        displayDoublingCube(board);
         displayPlayer(board);
         displayPipScore(board);
         displayTopTriangles(board);
@@ -45,7 +45,7 @@ public class View {
         System.out.println(" Length: " + matchLength);
     }
 
-    public static void displayDoubligCube(Board board)
+    public static void displayDoublingCube(Board board)
     {
         System.out.print("Doubling Cube Value: " + Dices.doublingCube);
         if(Dices.doublingCubeOwner==null)
@@ -76,7 +76,7 @@ public class View {
                 int index = t.getId();
                 int pipPointCount = (board.getActivePlayer() == board.playerOne) ? index * t.getCheckerCount() : (25 - index) * t.getCheckerCount();
                 pipCount += pipPointCount;
-                player.setPipcount(pipCount);
+                player.setPipCount(pipCount);
             }
         }
         System.out.println("Pip Count : " + pipCount);

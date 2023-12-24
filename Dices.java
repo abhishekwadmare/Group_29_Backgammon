@@ -8,6 +8,7 @@ public class Dices
 
     public static void setDoublingCubeOwner(Board board) {
         Dices.doublingCubeOwner = board.getActivePlayer();
+        doublingCube*=2;
     }
 
 
@@ -26,11 +27,13 @@ public class Dices
     {
         if(doublingCube!=64)
         {
-            doublingCube*=2;
-            System.out.println("Stakes are now doubled to: "+doublingCube);
+            System.out.println("Stakes are now being doubled to: "+doublingCube*2);
         }
         else
+        {
+            View.isDoublingOffered = false;
             System.err.println("Cannot Double Further");
+        }
     }
     public static void roll(){
         Random rand = new Random();

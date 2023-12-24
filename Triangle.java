@@ -64,4 +64,11 @@ public class Triangle implements Lane{
     public int getCheckerCount(){
         return triangle.size();
     }
+
+    public void resetTriangle(int checkerCount, String color)
+    {
+        triangle.clear();
+        for(int i = 0; i < checkerCount; i++)
+            insertChecker(new Checker(color),null);
+    }
 }

@@ -27,4 +27,9 @@ public class Bar implements Lane{
         }
         return null;
     }
+
+    public void resetBar()
+    {
+        bar.clear();
+    }
 }

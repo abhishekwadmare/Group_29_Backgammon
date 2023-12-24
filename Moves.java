@@ -29,14 +29,15 @@ public class Moves {
                         if(View.isDoublingOffered)
                         {
                             board.isQuit = true;
-                            System.out.println(View.activePlayer+"Loses!!!");
+                            System.out.println(board.getActivePlayer().getName()+" Loses this match!!!");
+                            View.isDoublingOffered = false;
+                            return;
                         }
                         else
                         {
                             View.isWrongInput = true;
                             return;
                         }
-                        break;
                     case "DOUBLE":
                         View.isDoublingOffered = true;
                         Dices.rollDoublingCube();
@@ -166,5 +167,5 @@ public class Moves {
             return board.getTriangles().getHomeQuadrantCheckerCount(board) == 15;
         return false;
     }
-  
+
 }
